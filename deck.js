@@ -161,8 +161,8 @@
     }
   });
 
-  // Bullet expand/collapse
-  document.querySelectorAll('.bullet').forEach(b=>{
+  // Bullet expand/collapse (and week-block on page4)
+  document.querySelectorAll('.bullet, .week-block').forEach(b=>{
     b.addEventListener('click', (ev)=>{
       if(mode === 'draw' || mode === 'erase') return; // avoid accidental toggle while drawing
       b.classList.toggle('open');
