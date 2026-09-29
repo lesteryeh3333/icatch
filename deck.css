@@ -209,7 +209,7 @@ body{
 .hl-btn.active{background:var(--gold);border-color:var(--gold);color:#3B2557;}
 
 /* Drawing canvas overlay */
-.hl-canvas{position:absolute;inset:0;z-index:5;pointer-events:none;}
+.hl-canvas{position:absolute;inset:0;z-index:50;pointer-events:none;}
 .hl-canvas.mode-draw, .hl-canvas.mode-erase{pointer-events:auto;}
 .hl-canvas.mode-draw{cursor:crosshair;}
 .hl-canvas.mode-erase{cursor:cell;}

@@ -203,6 +203,7 @@
       requestAnimationFrame(()=>{
         pageBlock.style.opacity = '1';
         pageBlock.style.transform = 'scale(1)';
+        setTimeout(()=>{ pageBlock.style.transform = 'none'; }, 230);
       });
     });
   }
