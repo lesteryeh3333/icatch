@@ -23,7 +23,10 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC",Helvetica,Arial,sans-serif;
   -webkit-font-smoothing:antialiased;
   overflow:hidden;
+  opacity:0;
+  transition:opacity .22s ease;
 }
+body.loaded{opacity:1;}
 
 .app{display:flex;height:100vh;height:100dvh;}
 
@@ -191,10 +194,10 @@ body{
   padding:16px 40px;border-top:1px solid var(--border);flex:none;background:var(--panel);
 }
 .navbtn{
-  display:flex;align-items:center;gap:7px;text-decoration:none;
+  display:flex;align-items:center;justify-content:center;text-decoration:none;
   background:var(--purple-soft);color:var(--purple);
-  border:none;padding:9px 18px;border-radius:8px;
-  font-size:13.5px;font-weight:700;cursor:pointer;
+  border:none;width:44px;height:44px;border-radius:10px;
+  font-size:20px;font-weight:700;cursor:pointer;
 }
 .navbtn[aria-disabled="true"]{opacity:.35;pointer-events:none;}
 .navbtn.primary{background:var(--purple);color:#fff;}

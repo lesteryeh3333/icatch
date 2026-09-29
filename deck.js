@@ -150,19 +150,23 @@
   }
 
   // Keyboard navigation: PageUp/PageDown/ArrowLeft/ArrowRight -> real page links
+  function fadeNavigate(href){
+    document.body.classList.remove('loaded');
+    setTimeout(()=>{ window.location.href = href; }, 200);
+  }
   document.addEventListener('keydown', e=>{
     if(e.key === 'PageDown' || e.key === 'ArrowRight'){
       const n = document.getElementById('nextBtn');
-      if(n && n.getAttribute('aria-disabled') !== 'true') window.location.href = n.href;
+      if(n && n.getAttribute('aria-disabled') !== 'true') fadeNavigate(n.href);
     }
     if(e.key === 'PageUp' || e.key === 'ArrowLeft'){
       const p = document.getElementById('prevBtn');
-      if(p && p.getAttribute('aria-disabled') !== 'true') window.location.href = p.href;
+      if(p && p.getAttribute('aria-disabled') !== 'true') fadeNavigate(p.href);
     }
   });
 
   // Bullet expand/collapse (and week-block on page4)
-  document.querySelectorAll('.bullet, .week-block').forEach(b=>{
+  document.querySelectorAll('.bullet, .week-block, .cp-list li').forEach(b=>{
     b.addEventListener('click', (ev)=>{
       if(mode === 'draw' || mode === 'erase') return; // avoid accidental toggle while drawing
       b.classList.toggle('open');
@@ -177,4 +181,18 @@
     menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
+
+  // Fade-in on load, fade-out before internal page navigation
+  requestAnimationFrame(()=>{ document.body.classList.add('loaded'); });
+  const FADE_MS = 200;
+  document.querySelectorAll('a[href$=".html"]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      if(a.getAttribute('aria-disabled')==='true') return;
+      const href = a.getAttribute('href');
+      if(!href || href==='#') return;
+      e.preventDefault();
+      document.body.classList.remove('loaded');
+      setTimeout(()=>{ window.location.href = href; }, FADE_MS);
+    });
+  });
 })();
