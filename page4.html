@@ -40,45 +40,30 @@
 
     <div class="stage" id="stage">
       <canvas class="hl-canvas" id="hlCanvas"></canvas>
-      <div class="slide">
+      <div class="slide" style="max-width:1040px;">
         <div class="eyebrow">NEW PROCESS</div>
         <h1>7 週標準流程</h1>
-        <p class="lead">兩個明確的品質關卡，取代過去「時間到了就過」的模式。</p>
-        <div class="tl-mini">
-          <div class="tl-step">新功能開發<div class="w">W1</div></div>
-          <div class="tl-step gold">Alpha 切出<div class="w">W2 五</div></div>
-          <div class="tl-step">優先驗證 DMP＋新功能<div class="w">W3</div></div>
-          <div class="tl-step">iCatch 自身測項<div class="w">W4</div></div>
-          <div class="tl-step green">修復／Beta<div class="w">W5</div></div>
-          <div class="tl-step">客戶整合<div class="w">W6</div></div>
-          <div class="tl-step green">Retest／發行<div class="w">W7</div></div>
+        <p class="lead">點左側週次切換；點右下角 ▼ 展開該週細節。</p>
+
+        <div class="wk-shell">
+          <div class="wk-rail" id="wkRail"></div>
+          <div class="wk-stage" id="wkStage">
+            <div class="wk-eyebrow" id="wkEyebrow"></div>
+            <h2 id="wkTitle"></h2>
+            <div class="wk-sub" id="wkSub"></div>
+            <div class="wk-detail" id="wkDetail"></div>
+            <div class="wk-nav">
+              <div class="wk-nav-row">
+                <button id="wkDown" class="wk-down" title="展開細節">▼</button>
+              </div>
+              <div class="wk-nav-row">
+                <button id="wkPrev" title="上一週">‹</button>
+                <button id="wkNext" title="下一週">›</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <ul class="bullets" style="margin-top:16px;">
-          <li class="bullet ">
-            <div class="bullet-head">
-              <div class="bullet-mark">①</div>
-              <div class="bullet-text">Alpha 切出後介面即穩定</div>
-              <div class="bullet-chevron">›</div>
-            </div>
-            <div class="bullet-detail"><p>功能規格從這時候起就固定下來，之後就是照這個規格去驗證，不再邊測邊變。</p></div>
-          </li>
-          <li class="bullet ">
-            <div class="bullet-head">
-              <div class="bullet-mark">②</div>
-              <div class="bullet-text">貴司測項優先驗證，長時間測試同步進行</div>
-              <div class="bullet-chevron">›</div>
-            </div>
-            <div class="bullet-detail"><p>W3 起優先測貴司測項與本版新功能，長時間可靠度測試同步平行進行，不等 W4 才開始。</p></div>
-          </li>
-          <li class="bullet ">
-            <div class="bullet-head">
-              <div class="bullet-mark">③</div>
-              <div class="bullet-text">Beta 為最晚期限，非固定日期</div>
-              <div class="bullet-chevron">›</div>
-            </div>
-            <div class="bullet-detail"><p>若驗證提前收斂，仍會保留最低緩衝天數再放行，不會測完就馬上倉促放行。</p></div>
-          </li>
-        </ul>
+        <div class="wk-progress"><div class="wk-progress-bar" id="wkProgressBar"></div></div>
       </div>
     </div>
 
@@ -102,5 +87,54 @@
 </div>
 
 <script src="deck.js"></script>
+<script>
+const weeks = [
+  {n:'W1', t:'新功能開發與除錯', color:'#C0472E', sub:'研發團隊進行本次版本規劃的新功能開發。', pts:['研發團隊進行新功能開發','測試團隊同步驗證，跟隨開發進度逐項確認']},
+  {n:'W2 週五', t:'Alpha 切出', color:'#B5842E', sub:'功能確認點，介面自此穩定。', pts:['新功能開發範圍鎖定，之後僅接受問題修復','介面與功能規格自此穩定，確保驗證結果與最終交付版本一致']},
+  {n:'W3', t:'優先驗證 DMP＋新功能', color:'#3E7A4E', sub:'交付重點，風險最集中處。', pts:['貴司提供的測項須全數通過，是必要驗證關卡','本版新功能同步驗證，與貴司測項同等優先','長時間可靠度測試自本階段起同步平行進行']},
+  {n:'W4', t:'iCatch 自身測項', color:'#2E7A6B', sub:'優先級較低，保留較長時間。', pts:['涵蓋多種操作情境的長時間運行與常規驗證','刻意保留較長時間，讓整合過程中的連帶影響有機會浮現']},
+  {n:'W5', t:'修復・Beta 發行', color:'#2E5FA3', sub:'週五發行，為最晚期限、非固定日期。', pts:['週一至週四完成最後修復與複測','週五發行 Beta，為最晚期限、非固定日期','若有未通過項目，發行前會先說明目前驗證涵蓋範圍']},
+  {n:'W6', t:'客戶整合驗證', color:'#5B3A8E', sub:'貴司整合測試，我方同步補充驗證。', pts:['貴司進行程式碼銜接與整合測試','iCatch 同步進行補充驗證，雙方問題一起處理']},
+  {n:'W7', t:'Retest／正式發行', color:'#8E3A6B', sub:'週五正式版本發行。', pts:['週一、二：最終 Retest，確認回饋問題已處理，並提交下一版新增測項需求','週三、四：Confirmation Test，雙方最終確認','週五：正式版本發行']},
+];
+
+let wi = 0;
+let detailOpen = false;
+
+function renderRail(){
+  document.getElementById('wkRail').innerHTML = weeks.map((w,i)=>`
+    <div class="wk-chip ${i===wi?'active':''}" data-i="${i}" style="background:${w.color};">
+      <div class="wk-n">${w.n}</div>
+      <div class="wk-t">${w.t}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.wk-chip').forEach(el=>{
+    el.addEventListener('click', ()=>{ wi = Number(el.dataset.i); detailOpen=false; render(); });
+  });
+}
+
+function render(){
+  const w = weeks[wi];
+  document.getElementById('wkStage').style.background = w.color;
+  document.getElementById('wkEyebrow').textContent = `週次 ${wi+1} / 7`;
+  document.getElementById('wkTitle').textContent = w.n + '　' + w.t;
+  document.getElementById('wkSub').textContent = w.sub;
+  const detail = document.getElementById('wkDetail');
+  detail.innerHTML = `<ul>${w.pts.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+  detail.classList.toggle('open', detailOpen);
+  document.getElementById('wkDown').classList.toggle('open', detailOpen);
+  document.getElementById('wkPrev').disabled = wi===0;
+  document.getElementById('wkNext').disabled = wi===weeks.length-1;
+  document.getElementById('wkProgressBar').style.width = ((wi+1)/weeks.length*100) + '%';
+  document.getElementById('wkProgressBar').style.background = w.color;
+  renderRail();
+}
+
+document.getElementById('wkDown').addEventListener('click', ()=>{ detailOpen = !detailOpen; render(); });
+document.getElementById('wkPrev').addEventListener('click', ()=>{ if(wi>0){wi--; detailOpen=false; render();} });
+document.getElementById('wkNext').addEventListener('click', ()=>{ if(wi<weeks.length-1){wi++; detailOpen=false; render();} });
+
+render();
+</script>
 </body>
 </html>
