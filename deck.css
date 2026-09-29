@@ -142,6 +142,43 @@ body{
   content:"—";position:absolute;left:-18px;color:var(--purple);font-weight:700;
 }
 
+/* Vertical stepper + right detail panel (page4) */
+.w7-layout{display:flex;gap:32px;flex:1;min-height:0;}
+.w7-list{flex:none;width:260px;position:relative;padding-left:4px;}
+.w7-item{
+  position:relative;padding:14px 0 14px 30px;cursor:pointer;
+}
+.w7-item::before{
+  content:"";position:absolute;left:4px;top:22px;bottom:-14px;width:2px;background:var(--border);
+}
+.w7-item:last-child::before{display:none;}
+.w7-dot{
+  position:absolute;left:0;top:18px;width:10px;height:10px;border-radius:50%;
+  background:var(--panel);border:2px solid var(--purple);
+}
+.w7-item.gold .w7-dot{border-color:var(--gold);}
+.w7-item.green .w7-dot{border-color:var(--green);}
+.w7-item.active .w7-dot{background:var(--purple);}
+.w7-item.gold.active .w7-dot{background:var(--gold);}
+.w7-item.green.active .w7-dot{background:var(--green);}
+.w7-tag{font-size:10.5px;font-weight:800;color:var(--purple);letter-spacing:.04em;}
+.w7-item.gold .w7-tag{color:var(--gold);}
+.w7-item.green .w7-tag{color:var(--green);}
+.w7-title{font-size:15.5px;font-weight:700;color:var(--ink);margin-top:2px;}
+.w7-item.active .w7-title{color:var(--purple);}
+.w7-detail-panel{
+  flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:26px 24px;box-shadow:var(--shadow);min-height:200px;
+}
+.w7-detail-panel .w7d-tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--purple-soft);color:var(--purple);margin-bottom:10px;}
+.w7-detail-panel h3{margin:0 0 14px;font-size:19px;font-weight:800;}
+.w7-detail-panel ul{margin:0;padding-left:18px;}
+.w7-detail-panel li{font-size:14px;color:var(--ink-dim);line-height:1.75;margin-bottom:6px;}
+@media (max-width:760px){
+  .w7-layout{flex-direction:column;}
+  .w7-list{width:100%;}
+}
+
 .placeholder-box{
   flex:1;border:2px dashed var(--border);border-radius:14px;
   display:flex;align-items:center;justify-content:center;

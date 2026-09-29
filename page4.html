@@ -40,137 +40,24 @@
 
     <div class="stage" id="stage">
       <canvas class="hl-canvas" id="hlCanvas"></canvas>
-      <div class="slide">
+      <div class="slide" style="max-width:1000px;">
         <div class="eyebrow">NEW PROCESS</div>
         <h1>7 週標準流程</h1>
-        <p class="lead">N 版與 N+1 版架構完全對稱，皆為 7 週。點擊項目查看細節。</p>
+        <p class="lead">兩個明確的品質關卡，取代過去「時間到了就過」的模式。點左側週次查看細節。</p>
 
-        <div class="two-col" style="align-items:start;">
-          <div>
-            <div style="font-size:13px;font-weight:800;color:var(--purple);margin-bottom:8px;">N 版</div>
-            <ul class="bullets" style="border:none;">
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W1</div>
-          <div class="bullet-text">新功能開發與除錯</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>研發團隊進行本次版本規劃的新功能開發，測試團隊同步驗證。</p></div>
-      </li>
-              <li class="bullet gold">
-        <div class="bullet-head">
-          <div class="bullet-mark">W2</div>
-          <div class="bullet-text">Alpha 切出（週五）</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>功能確認點，目的是讓 QA 測試目標穩定；之後僅接受問題修復，不再新增功能。</p></div>
-      </li>
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W3</div>
-          <div class="bullet-text">優先驗證：DMP＋新功能</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>貴司測項須全數通過，與本版新功能同等優先；長時間可靠度測試同步平行進行。</p></div>
-      </li>
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W4</div>
-          <div class="bullet-text">iCatch 自身測項</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>優先級較低，保留較長時間讓 side effect 與長時間測試的不確定性有機會浮現。</p></div>
-      </li>
-              <li class="bullet green">
-        <div class="bullet-head">
-          <div class="bullet-mark">W5</div>
-          <div class="bullet-text">修復／Beta</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>週一至四修復，週五發行 Beta，為最晚期限、非固定日期。</p></div>
-      </li>
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W6</div>
-          <div class="bullet-text">客戶整合</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>貴司整合測試與 iCatch 補充驗證同步進行，問題一起處理。</p></div>
-      </li>
-              <li class="bullet green">
-        <div class="bullet-head">
-          <div class="bullet-mark">W7</div>
-          <div class="bullet-text">Retest／Release</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>週一二 Retest，週三四 Confirmation，週五正式發行。</p></div>
-      </li>
-            </ul>
+        <div class="w7-layout">
+          <div class="w7-list" id="w7List">
+            <div class="w7-item active" data-i="0"><div class="w7-dot"></div><div class="w7-tag">W1</div><div class="w7-title">新功能開發與除錯</div></div>
+            <div class="w7-item gold" data-i="1"><div class="w7-dot"></div><div class="w7-tag">W2 週五</div><div class="w7-title">Alpha 切出</div></div>
+            <div class="w7-item" data-i="2"><div class="w7-dot"></div><div class="w7-tag">W3</div><div class="w7-title">優先驗證：DMP＋新功能</div></div>
+            <div class="w7-item" data-i="3"><div class="w7-dot"></div><div class="w7-tag">W4</div><div class="w7-title">iCatch 自身測項</div></div>
+            <div class="w7-item green" data-i="4"><div class="w7-dot"></div><div class="w7-tag">W5</div><div class="w7-title">修復・Beta 發行</div></div>
+            <div class="w7-item" data-i="5"><div class="w7-dot"></div><div class="w7-tag">W6</div><div class="w7-title">客戶整合驗證</div></div>
+            <div class="w7-item green" data-i="6"><div class="w7-dot"></div><div class="w7-tag">W7</div><div class="w7-title">Retest／正式發行</div></div>
           </div>
-          <div>
-            <div style="font-size:13px;font-weight:800;color:var(--purple);margin-bottom:8px;">N+1 版</div>
-            <ul class="bullets" style="border:none;">
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W1</div>
-          <div class="bullet-text">新功能開發與除錯</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>PM/PL 須於 N 版 W5 前提出 N+1 需求；RD 可提早於 N 版 W6、W7 開始開發（頭期優勢，非強制）。</p></div>
-      </li>
-              <li class="bullet gold">
-        <div class="bullet-head">
-          <div class="bullet-mark">W2</div>
-          <div class="bullet-text">Alpha 切出（週五）</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>與 N 版邏輯完全相同，功能確認點。</p></div>
-      </li>
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W3</div>
-          <div class="bullet-text">優先驗證：DMP＋新功能</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>長時間可靠度測試同步平行進行。</p></div>
-      </li>
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W4</div>
-          <div class="bullet-text">iCatch 自身測項</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>優先級較低，保留較長時間。</p></div>
-      </li>
-              <li class="bullet green">
-        <div class="bullet-head">
-          <div class="bullet-mark">W5</div>
-          <div class="bullet-text">修復／Beta</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>須完成交付（deadline）。</p></div>
-      </li>
-              <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">W6</div>
-          <div class="bullet-text">客戶整合</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>客戶協作驗證。</p></div>
-      </li>
-              <li class="bullet green">
-        <div class="bullet-head">
-          <div class="bullet-mark">W7</div>
-          <div class="bullet-text">Retest／Release</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>架構與 N 版完全對稱，不因頭期開發而壓縮 N+1 自己的週期長度。</p></div>
-      </li>
-            </ul>
-          </div>
-        </div>
 
-        <p style="font-size:12.5px;color:var(--ink-dim);margin-top:16px;">示意圖：N 版與 N+1 版關係，兩版架構完全一致、互不壓縮彼此週期。</p>
+          <div class="w7-detail-panel" id="w7Detail"></div>
+        </div>
       </div>
     </div>
 
@@ -194,5 +81,56 @@
 </div>
 
 <script src="deck.js"></script>
+<script>
+const w7data = [
+  {tag:'W1', title:'新功能開發與除錯', pts:[
+    '研發團隊進行本次版本規劃的新功能開發',
+    '測試團隊同步驗證，跟隨開發進度逐項確認'
+  ]},
+  {tag:'W2 週五', title:'Alpha 切出（功能確認點）', pts:[
+    '新功能開發範圍在這裡鎖定，之後僅接受問題修復',
+    '介面與功能規格自此穩定，確保驗證結果與最終交付版本一致'
+  ]},
+  {tag:'W3', title:'優先驗證：DMP 測項＋本版新功能', pts:[
+    '貴司提供的測項須全數通過，是必要驗證關卡',
+    '本版新功能同步驗證，與貴司測項同等優先',
+    '長時間可靠度測試自本階段起同步平行進行'
+  ]},
+  {tag:'W4', title:'iCatch 自身測項', pts:[
+    '涵蓋多種操作情境的長時間運行與常規驗證',
+    '刻意保留較長時間，讓整合過程中的連帶影響有機會浮現'
+  ]},
+  {tag:'W5', title:'最後修復・Beta 發行', pts:[
+    '週一至週四完成最後修復與複測',
+    '週五發行 Beta，為最晚期限、非固定日期',
+    '若有未通過項目，發行前會先說明目前驗證涵蓋範圍'
+  ]},
+  {tag:'W6', title:'客戶整合驗證', pts:[
+    '貴司進行程式碼銜接與整合測試',
+    'iCatch 同步進行補充驗證，雙方問題一起處理'
+  ]},
+  {tag:'W7', title:'Retest／正式發行', pts:[
+    '週一、二：最終 Retest，確認回饋問題已處理，並提交下一版新增測項需求',
+    '週三、四：Confirmation Test，雙方最終確認',
+    '週五：正式版本發行'
+  ]},
+];
+
+function renderW7Detail(i){
+  const d = w7data[i];
+  document.getElementById('w7Detail').innerHTML = `
+    <span class="w7d-tag">${d.tag}</span>
+    <h3>${d.title}</h3>
+    <ul>${d.pts.map(p=>`<li>${p}</li>`).join('')}</ul>
+  `;
+  document.querySelectorAll('.w7-item').forEach(el=>{
+    el.classList.toggle('active', Number(el.dataset.i)===i);
+  });
+}
+document.querySelectorAll('.w7-item').forEach(el=>{
+  el.addEventListener('click', ()=> renderW7Detail(Number(el.dataset.i)));
+});
+renderW7Detail(0);
+</script>
 </body>
 </html>
