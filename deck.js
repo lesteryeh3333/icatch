@@ -189,37 +189,14 @@
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
 
-  // Expand-from-center transition on the page's color block (not the whole page)
-  // Skipped entirely on pages that opt out (their own internal animation takes over)
-  const skipTransition = document.body.hasAttribute('data-no-transition');
-  const pageBlock = skipTransition ? null : (function(){
-    const kids = Array.from(stage.children).filter(el => el !== canvas);
-    return kids[0] || null;
-  })();
-  if(pageBlock){
-    pageBlock.style.transition = 'clip-path .5s ease';
-    pageBlock.style.clipPath = 'inset(50% 50% 50% 50% round 14px)';
-    requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        pageBlock.style.clipPath = 'inset(0% 0% 0% 0% round 14px)';
-        setTimeout(()=>{ pageBlock.style.clipPath = 'none'; }, 520);
-      });
-    });
-  }
-  const FADE_MS = 380;
-  function fadeOutBlock(){
-    if(pageBlock){
-      pageBlock.style.clipPath = 'inset(50% 50% 50% 50% round 14px)';
-    }
-  }
+  // Expand-from-center transition on the page's color block — TEMPORARILY DISABLED
+  // (troubleshooting pen tool conflict; re-enable once confirmed pen works without it)
+  const FADE_MS = 0;
+  function fadeOutBlock(){ /* no-op while transition is disabled */ }
   document.querySelectorAll('a[href$=".html"]').forEach(a=>{
     a.addEventListener('click', (e)=>{
       if(a.getAttribute('aria-disabled')==='true') return;
-      const href = a.getAttribute('href');
-      if(!href || href==='#') return;
-      e.preventDefault();
-      fadeOutBlock();
-      setTimeout(()=>{ window.location.href = href; }, FADE_MS);
+      // let the browser navigate normally — no custom handling while disabled
     });
   });
 })();
