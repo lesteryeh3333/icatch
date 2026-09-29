@@ -1,4 +1,4 @@
-// deck.js — shared across all 9 slide pages
+// deck.js — shared across all slide pages
 (function(){
   const canvas = document.getElementById('hlCanvas');
   const stage = document.getElementById('stage');
@@ -22,6 +22,7 @@
   }
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
+
   function setMode(next){
     mode = (mode === next) ? 'none' : next;
     canvas.classList.remove('mode-draw','mode-erase');
@@ -30,29 +31,9 @@
     if(mode === 'erase') canvas.classList.add('mode-erase');
     if(mode === 'laser') document.body.classList.add('laser-on');
     updateToolbarUI();
-    updateDebugBadge();
   }
-
-  // TEMPORARY debug badge — remove once pen issue is diagnosed
-  const debugBadge = document.createElement('div');
-  debugBadge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:#000;color:#0f0;font:11px monospace;padding:6px 10px;border-radius:6px;pointer-events:none;max-width:96vw;word-break:break-all;';
-  document.body.appendChild(debugBadge);
-  function updateDebugBadge(){
-    debugBadge.textContent = 'mode=' + mode + ' canvasClass=' + canvas.className + ' cw=' + canvas.width + ' ch=' + canvas.height;
-  }
-  updateDebugBadge();
-  canvas.addEventListener('mousedown', ()=>{ debugBadge.textContent += ' | mousedown-fired'; });
-  canvas.addEventListener('touchstart', ()=>{ debugBadge.textContent += ' | touchstart-fired'; }, {passive:true});
-
-  const debugBadge2 = document.createElement('div');
-  debugBadge2.style.cssText = 'position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:99999;background:#000;color:#ff0;font:11px monospace;padding:6px 10px;border-radius:6px;pointer-events:none;max-width:96vw;word-break:break-all;';
-  debugBadge2.textContent = 'waiting for tool tap...';
-  document.body.appendChild(debugBadge2);
 
   function updateToolbarUI(){
-    document.querySelectorAll('[data-tool]').forEach(btn=>{
-      btn.classList.toggle('active', btn.dataset.tool === mode);
-    });
     document.querySelectorAll('.ctx-item[data-tool]').forEach(it=>{
       it.classList.toggle('on', it.dataset.tool === mode);
     });
@@ -125,16 +106,8 @@
     }
   }
 
-  // Toolbar buttons
-  document.querySelectorAll('[data-tool]').forEach(btn=>{
-    btn.addEventListener('click', ()=> setMode(btn.dataset.tool));
-  });
-  const fsBtn = document.getElementById('fsBtn');
-  if(fsBtn) fsBtn.addEventListener('click', toggleFullscreen);
-  const clearBtn = document.getElementById('clearBtn');
-  if(clearBtn) clearBtn.addEventListener('click', clearCanvas);
-
-  // Right-click custom context menu
+  // Right-click custom context menu (only place [data-tool] listeners are bound —
+  // binding it a second time elsewhere double-fires setMode's toggle and cancels itself out)
   const ctxMenu = document.getElementById('ctxMenu');
   document.addEventListener('contextmenu', e=>{
     e.preventDefault();
@@ -145,13 +118,7 @@
   });
   document.addEventListener('click', ()=> ctxMenu.classList.remove('show'));
   ctxMenu.querySelectorAll('[data-tool]').forEach(it=>{
-    it.addEventListener('click', (ev)=>{
-      debugBadge2.textContent = 'CLICKED item, tool=' + it.dataset.tool + ' @' + Date.now();
-      setMode(it.dataset.tool);
-    });
-    it.addEventListener('touchend', (ev)=>{
-      debugBadge2.textContent = 'TOUCHEND item, tool=' + it.dataset.tool + ' @' + Date.now();
-    });
+    it.addEventListener('click', ()=> setMode(it.dataset.tool));
   });
   const ctxClear = document.getElementById('ctxClear');
   if(ctxClear) ctxClear.addEventListener('click', clearCanvas);
@@ -175,27 +142,10 @@
       ctxMenu.style.top = top + 'px';
       ctxMenu.classList.add('show');
       updateToolbarUI();
-      debugBadge2.textContent = 'FAB tapped, menu left=' + Math.round(left) + ' top=' + Math.round(top) + ' showClass=' + ctxMenu.className;
     });
   }
 
-  // Keyboard navigation: PageUp/PageDown/ArrowLeft/ArrowRight -> real page links
-  function fadeNavigate(href){
-    fadeOutBlock();
-    setTimeout(()=>{ window.location.href = href; }, FADE_MS);
-  }
-  document.addEventListener('keydown', e=>{
-    if(e.key === 'PageDown' || e.key === 'ArrowRight'){
-      const n = document.getElementById('nextBtn');
-      if(n && n.getAttribute('aria-disabled') !== 'true') fadeNavigate(n.href);
-    }
-    if(e.key === 'PageUp' || e.key === 'ArrowLeft'){
-      const p = document.getElementById('prevBtn');
-      if(p && p.getAttribute('aria-disabled') !== 'true') fadeNavigate(p.href);
-    }
-  });
-
-  // Bullet expand/collapse (and week-block on page4)
+  // Bullet expand/collapse (and week-block / cp-list items)
   document.querySelectorAll('.bullet, .week-block, .cp-list li').forEach(b=>{
     b.addEventListener('click', (ev)=>{
       if(mode === 'draw' || mode === 'erase') return; // avoid accidental toggle while drawing
@@ -212,14 +162,54 @@
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
 
-  // Expand-from-center transition on the page's color block — TEMPORARILY DISABLED
-  // (troubleshooting pen tool conflict; re-enable once confirmed pen works without it)
-  const FADE_MS = 0;
-  function fadeOutBlock(){ /* no-op while transition is disabled */ }
+  // Expand-from-center transition on the page's color block (not the whole page)
+  // Skipped entirely on pages that opt out (their own internal animation takes over)
+  const skipTransition = document.body.hasAttribute('data-no-transition');
+  const pageBlock = skipTransition ? null : (function(){
+    const kids = Array.from(stage.children).filter(el => el !== canvas);
+    return kids[0] || null;
+  })();
+  if(pageBlock){
+    pageBlock.classList.add('page-block-enter');
+    setTimeout(()=>{
+      pageBlock.classList.add('open');
+    }, 30);
+    setTimeout(()=>{
+      pageBlock.classList.remove('page-block-enter','open');
+    }, 560);
+  }
+  const FADE_MS = 380;
+  function fadeOutBlock(){
+    if(pageBlock){
+      pageBlock.classList.add('page-block-enter');
+      pageBlock.classList.remove('open');
+      void pageBlock.offsetWidth;
+    }
+  }
   document.querySelectorAll('a[href$=".html"]').forEach(a=>{
     a.addEventListener('click', (e)=>{
       if(a.getAttribute('aria-disabled')==='true') return;
-      // let the browser navigate normally — no custom handling while disabled
+      const href = a.getAttribute('href');
+      if(!href || href==='#') return;
+      e.preventDefault();
+      fadeOutBlock();
+      setTimeout(()=>{ window.location.href = href; }, FADE_MS);
     });
+  });
+
+  // Keyboard navigation: PageUp/PageDown/ArrowLeft/ArrowRight -> real page links
+  function fadeNavigate(href){
+    fadeOutBlock();
+    setTimeout(()=>{ window.location.href = href; }, FADE_MS);
+  }
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'PageDown' || e.key === 'ArrowRight'){
+      const n = document.getElementById('nextBtn');
+      if(n && n.getAttribute('aria-disabled') !== 'true') fadeNavigate(n.href);
+    }
+    if(e.key === 'PageUp' || e.key === 'ArrowLeft'){
+      const p = document.getElementById('prevBtn');
+      if(p && p.getAttribute('aria-disabled') !== 'true') fadeNavigate(p.href);
+    }
   });
 })();
