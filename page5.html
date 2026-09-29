@@ -43,25 +43,30 @@
       <div class="slide">
         <div class="eyebrow">測項規劃</div>
         <h1>iCatch 測項規劃</h1>
-        <p class="lead">我們會用貴司的測試標準，比對 iCatch 現有測試項目，並據此深化測試涵蓋的細節。</p>
-        <ul class="bullets">
-          <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">①</div>
-          <div class="bullet-text">以貴司標準比對現有測項</div>
-          <div class="bullet-chevron">›</div>
+        <p class="lead">點右下角 ▼ 展開比對細節。</p>
+
+        <div class="venn-block">
+          <div class="venn-eyebrow">SCOPE COMPARISON</div>
+          <h2>DMP 測項 × iCatch 測項</h2>
+          <div class="venn-sub">以貴司的測試標準，比對 iCatch 現有測試項目，找出交集與落差。</div>
+
+          <div class="venn-stage">
+            <div class="venn-circle a">DMP 測項</div>
+            <div class="venn-circle b">iCatch 測項</div>
+            <div class="venn-label-center">交集</div>
+          </div>
+
+          <div class="venn-detail" id="vennDetail">
+            <ul>
+              <li>找出目前測項與貴司實際使用場景之間的落差，不只是看有沒有測到，還要看測得夠不夠深</li>
+              <li>比對結果將作為後續強化測試嚴謹度的依據，逐步補齊測試深度分級</li>
+            </ul>
+          </div>
+
+          <div class="venn-nav">
+            <button id="vennDown" title="展開細節">▼</button>
+          </div>
         </div>
-        <div class="bullet-detail"><p>找出目前測項與貴司實際使用場景之間的落差，不只是看有沒有測到，還要看測得夠不夠深。</p></div>
-      </li>
-          <li class="bullet ">
-        <div class="bullet-head">
-          <div class="bullet-mark">②</div>
-          <div class="bullet-text">據此規劃測試深度分級</div>
-          <div class="bullet-chevron">›</div>
-        </div>
-        <div class="bullet-detail"><p>比對結果將作為後續強化測試嚴謹度的依據，逐步補齊。</p></div>
-      </li>
-        </ul>
       </div>
     </div>
 
@@ -85,5 +90,11 @@
 </div>
 
 <script src="deck.js"></script>
+<script>
+document.getElementById('vennDown').addEventListener('click', ()=>{
+  document.getElementById('vennDetail').classList.toggle('open');
+  document.getElementById('vennDown').classList.toggle('open');
+});
+</script>
 </body>
 </html>
