@@ -248,7 +248,7 @@ body.laser-on .stage{cursor:none;}
 .overlay.show{display:block;}
 
 .tools-fab{
-  position:fixed;right:16px;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:30;
+  position:fixed;right:16px;top:calc(env(safe-area-inset-top,0px) + 66px);z-index:60;
   width:48px;height:48px;border-radius:50%;
   background:var(--purple);color:#fff;border:none;
   font-size:18px;box-shadow:0 8px 20px rgba(59,37,87,0.3);
