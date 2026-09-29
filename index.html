@@ -115,15 +115,17 @@
 <body>
 
 <nav class="toc"><div class="toc-inner">
+  <a href="#beta-origin">Beta緣由</a>
   <a href="#event">事件</a>
   <a href="#cause">根因</a>
-  <a href="#timing">時序問題</a>
+  <a href="#timing">測項差異</a>
   <a href="#process">新流程</a>
   <a href="#train">N/N+1關係</a>
   <a href="#flex">彈性機制</a>
   <a href="#multi">多產品</a>
   <a href="#depth">測試深度</a>
   <a href="#ask">下一步</a>
+  <a href="dmp-icatch-comparison.html">測項比較</a>
 </div></nav>
 
 <div class="hero">
@@ -134,10 +136,22 @@
 
 <div class="wrap">
 
+  <section id="beta-origin">
+    <div class="section-head">
+      <span class="tag">背景補充・個人觀察</span>
+      <h2>舊流程為何需要 Beta 版本</h2>
+    </div>
+    <div class="card warn">
+      <p style="margin:0 0 10px;">以下是個人推測，非已與 DMP 明確確認過的結論，僅作為理解舊流程動機的參考。</p>
+      <p style="margin:0 0 10px;">在原本 6 週的流程裡，「先出一版 Beta 給 DMP、再等 DMP 回饋」是整個時程的核心節點。這個安排背後，DMP 真正想要的其實是能跟 iCatch 同步驗證，而不是被動等 iCatch 這邊先測完、有問題才發現，導致 release 時程被拖延。</p>
+      <p style="margin:0;">往深一層想，這個訴求追根究柢，很可能反映的是 DMP 對 iCatch 內部測試細節掌握度的不信任——不確定 iCatch 到底測了什麼、測得夠不夠深，所以需要盡早拿到 Beta 版本自己驗證，用自己的驗證結果來確認風險，而不是單純信任 iCatch 這邊回報「測過了、沒問題」。這正是新流程要處理的核心問題之一：不是加快交付 Beta 的速度，而是讓 DMP 在 Beta 釋出前，就能看到 iCatch 已經用同等標準先驗證過。</p>
+    </div>
+  </section>
+
   <section id="event">
     <div class="section-head">
       <span class="tag">事件回顧</span>
-      <h2>客戶測出 6 種問題，我們只重現 1 種</h2>
+      <h2>客戶測出 6 種問題（DMP-415），我們只重現 1 種</h2>
     </div>
     <div class="stat-row">
       <div class="stat"><div class="n">6</div><div class="lab">客戶長時間測試複製出的問題種類</div></div>
@@ -150,15 +164,15 @@
   <section>
     <div class="section-head">
       <span class="tag">釐清主因與次因</span>
-      <h2>測不到，不是因為測得不夠久，也不是測項不夠多</h2>
-      <p class="sub">問題根本不在「測得夠不夠久」，而在「測的東西從一開始就不是客戶在用的東西」。</p>
+      <h2>測不到，不是因為測項不夠多</h2>
+      <p class="sub">測項數量從來不是問題所在，問題出在測的東西從一開始就不是客戶在用的東西。</p>
     </div>
     <div class="flow">
       <div class="flow-box danger">確實發生過：時程壓力 → 測試項目被壓縮（BSP 11.5.1 真實情況）</div>
       <div class="flow-arrow">→</div>
       <div class="flow-box">但這只是助長因素，不是根本原因</div>
     </div>
-    <p style="color:var(--text-dim);font-size:14.5px;margin-top:16px;">同理，這也不是「iCatch 測項數量不夠」的問題——多加幾個測項無法解決，因為問題出在測項的設計邏輯、測試資源配置、與測試時機安排這三個系統性層面，不是靠增加測項數量就能補上的缺口。</p>
+    <p style="color:var(--text-dim);font-size:14.5px;margin-top:16px;">問題出在測項的設計邏輯、測試資源配置、與測試時機安排這三個系統性層面，不是靠增加測項數量就能補上的缺口。</p>
   </section>
 
   <section id="cause">
@@ -180,7 +194,7 @@
       <div class="card" style="background:var(--accent-soft);">
         <span class="tag accent">缺口 3</span>
         <h3>流程時序錯亂</h3>
-        <p>Full Test 排在 Beta 釋出之後才開始，等於客戶比 iCatch 更早做深度驗證。</p>
+        <p>Full Test 要到正式 release 前才真正跑完，Beta 釋出當下其實並未完成全部測試，等於客戶比 iCatch 更早做深度驗證。</p>
       </div>
     </div>
 
@@ -196,15 +210,15 @@
 
   <section id="timing">
     <div class="section-head">
-      <span class="tag">缺口 3 詳解</span>
-      <h2>為什麼客戶總是先發現問題</h2>
+      <span class="tag">缺口 1 詳解</span>
+      <h2>DMP 測項與 iCatch 測項的差異</h2>
     </div>
 
     <div class="card warn" style="margin-top:16px;">
       <h3 style="margin-top:0;">總結兩點</h3>
       <ul class="clean" style="margin-top:10px;">
-        <li>問題不是 iCatch 沒測，是沒測 DMP 測項——iCatch 有自己一套測試在跑，只是沒涵蓋到 DMP 實際會測的項目</li>
-        <li>DMP 的測項範圍比想像中廣，連周邊功能也放進測項裡，不是只測核心功能</li>
+        <li>問題不是 iCatch 完全沒測，而是 iCatch 現有測項庫裡，v4l2loopback、CPU Clock 調整、GPIO 實際驅動輸出、ADC/PWM 這幾塊完全沒有對應項目，是真正意義上的「沒測到 DMP 會測的東西」；A3000 NPU 與 Stereo Vision（Depth Engine）則屬於 DMP 產品線專屬硬體模組，iCatch 其他平台未必配備，沒測不是通用能力被漏掉，而是本來就屬於 DMP 專屬側的驗證範圍（其中 SV 根頁面索引雖列有「SV 自動化測試」規劃，但未建成分頁、無附件、無判定機制，屬於規劃了卻沒落實的執行落差）</li>
+        <li>DMP 的測項範圍比想像中廣，不是只測 codec/CV 這種核心功能，還系統化涵蓋了板級周邊：GPIO 實際驅動輸出、SPI/RTC/periinfo 列舉、CPU Clock 調整（含暫存器真值驗證與 deadman watchdog）、ADC/PWM。這些在 iCatch 內部測項庫裡，目前只在 <code>01-system</code> 分頁有零星文字步驟提及（如 reset/watchdog），沒有 DMP 這種嚴謹的自動化判定機制</li>
       </ul>
     </div>
   </section>
@@ -216,17 +230,16 @@
     </div>
     <div class="timeline-scroller">
       <div class="mini-timeline">
-        <div class="tstep">新功能開發與除錯<div class="w">W1</div></div>
+        <div class="tstep">新功能開發與除錯／每兩天定期驗證<div class="w">W1</div></div>
         <div class="tstep gate">Alpha 切出<div class="w">W2 五</div></div>
         <div class="tstep gate">QA 測 DMP＋新功能<div class="w">W3 一</div></div>
         <div class="tstep">iCatch 自身測項<div class="w">W4</div></div>
         <div class="tstep milestone">修復／Beta<div class="w">W5 一~四／五</div></div>
         <div class="tstep">客戶整合驗證<div class="w">W6</div></div>
-        <div class="tstep milestone">Retest／正式發行<div class="w">W7／五</div></div>
+        <div class="tstep milestone">Retest（含 A3000 修正驗證）／正式發行<div class="w">W7／五</div></div>
       </div>
     </div>
     <p style="color:var(--text-dim);font-size:14.5px;margin-top:14px;">兩個 Gate（Alpha 切出 / 客戶測項與新功能驗證）取代過去「時間到了就過」的模式。對外版頁面已同步更新為此架構。</p>
-    <p style="color:var(--text-dim);font-size:13.5px;margin-top:12px;">參考 <a href="sdk-release-plan.html" style="color:var(--accent);font-weight:700;">sdk-release-plan.html</a></p>
   </section>
 
   <section id="train">
@@ -254,13 +267,13 @@
       <div style="flex:none;width:150px;margin-right:6px;">
         <div style="font-size:12.5px;font-weight:800;color:var(--text-dim);margin-bottom:6px;">N 版</div>
         <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W1<br><span style="font-weight:600;font-size:10.5px;">新功能開發與除錯</span></div>
+          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W1<br><span style="font-weight:600;font-size:9.5px;">開發／每兩天定期驗證</span></div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--warn-soft);color:var(--warn);border-radius:8px;font-size:12px;font-weight:800;text-align:center;">W2 五<br>Alpha 切出</div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;">W3 一<br>QA 測 DMP+新功能</div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W4<br><span style="font-weight:600;font-size:10.5px;">iCatch 自身測項</span></div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W5 一~四修復<br>五 Beta</div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W6<br><span style="font-weight:600;font-size:10.5px;">客戶整合</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W7<br>Retest／五 Release</div>
+          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W7<br>Retest／A3000 修正驗證／五 Release</div>
         </div>
       </div>
 
@@ -296,13 +309,13 @@
         <div style="height:calc(7*3.375rem);"></div>
         <div style="font-size:12.5px;font-weight:800;color:var(--text-dim);margin-bottom:6px;">N+1 版</div>
         <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W1<br><span style="font-weight:600;font-size:10.5px;">新功能開發與除錯</span></div>
+          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W1<br><span style="font-weight:600;font-size:9.5px;">開發／每兩天定期驗證</span></div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--warn-soft);color:var(--warn);border-radius:8px;font-size:12px;font-weight:800;text-align:center;">W2 五<br>Alpha 切出</div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;">W3 一<br>QA 測 DMP+新功能</div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W4<br><span style="font-weight:600;font-size:10.5px;">iCatch 自身測項</span></div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W5 一~四修復<br>五 Beta</div>
           <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W6<br><span style="font-weight:600;font-size:10.5px;">客戶整合</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W7<br>Retest／五 Release</div>
+          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W7<br>Retest／A3000 修正驗證／五 Release</div>
         </div>
       </div>
 
@@ -321,7 +334,7 @@
 
     </div>
     </div>
-    <p style="color:var(--text-dim);font-size:13.5px;margin-top:6px;">dev 為主幹，持續不間斷開發。<b>N 版 W2 五 Alpha 切出</b>＝功能確認點，目的是讓 QA 測試目標穩定；之後僅修 bug、不進新功能。<b>W3 一起 QA 優先測 DMP 測項與本版新功能</b>（交付重點、風險最集中處，長時間可靠度測試自此同步平行進行，不等 W4 才開始），<b>W4 才測 iCatch 自身測項</b>（優先級較低，保留較長時間是為了讓 side effect 與長時間測試的不確定性有機會浮現，不是不重要，是這類問題本來就需要時間才會暴露，非靠人力可加速）。<b>W5 五 Beta 為 deadline、非固定日期</b>：若雙軌測試提前收斂，仍建議保留最低緩衝天數再放行，不鼓勵養成「測完就衝」的習慣。<b>每一版結構完全一致、皆為 7 週</b>：<b>PM/PL 須於 N-W5 前提出 N+1 需求</b>，RD 可提早於 N-W6、N-W7 在 dev branch 上開始開發 N+1（頭期優勢，非強制），接續 N+1 自己完整的 7 週週期（W1 開發、W2 五 Alpha、W3 起測試…W7 五 Release），架構與 N 版完全對稱，不因頭期開發而壓縮 N+1 自己的週期長度。</p>
+    <p style="color:var(--text-dim);font-size:13.5px;margin-top:6px;">dev 為主幹，持續不間斷開發。<b>N 版 W2 五 Alpha 切出</b>＝功能確認點，目的是讓 QA 測試目標穩定；之後僅修 bug、不進新功能。<b>W3 一起 QA 優先測 DMP 測項與本版新功能</b>（交付重點、風險最集中處，長時間可靠度測試自此同步平行進行，不等 W4 才開始），<b>W4 才測 iCatch 自身測項</b>。<b>W5 五 Beta 為 deadline、非固定日期</b>：若雙軌測試提前收斂，仍建議保留最低緩衝天數再放行，不鼓勵養成「測完就衝」的習慣。<b>每一版結構完全一致、皆為 7 週</b>：<b>PM/PL 須於 N-W5 前提出 N+1 需求</b>，RD 可提早於 N-W6、N-W7 在 dev branch 上開始開發 N+1（頭期優勢，非強制），接續 N+1 自己完整的 7 週週期（W1 開發、W2 五 Alpha、W3 起測試…W7 五 Release），架構與 N 版完全對稱，不因頭期開發而壓縮 N+1 自己的週期長度。</p>
   </section>
 
   <section id="flex">
@@ -374,7 +387,7 @@
     <div class="card warn" style="margin-bottom:16px;">
       <span class="tag warn">現況</span>
       <h3>其他產品線目前仍停留在功能測試 + 個別壓力測試</h3>
-      <p>DMP 因這次事件已被迫拉高到含長時間可靠度測試與 Customer Scenario 的驗證水準；其他產品線尚未導入。若不釐清邊界，可能出現兩種風險：DMP 的高規格被迫套用到其他產品線（QA 資源直接爆掉），或其他產品線的 change 影響到共用底層（如 Encoder），卻只有 DMP 在做長時間驗證，問題持續被漏掉。</p>
+      <p>DMP 因這次事件已被迫拉高到含長時間可靠度測試與 Customer Scenario 的驗證水準；其他產品線尚未導入。若不釐清邊界，可能出現兩種風險：DMP 的高規格被迫套用到其他產品線（QA 資源直接不堪負荷），或其他產品線的 change 影響到共用底層（如 Encoder），卻只有 DMP 在做長時間驗證，問題持續被漏掉。</p>
     </div>
 
     <div class="section-head" style="margin-top:28px;margin-bottom:14px;">
@@ -397,7 +410,7 @@
       <h3 style="font-size:17px;margin:0;">執行前置：一次性 2 週整合評估空窗期</h3>
     </div>
     <div class="flow" style="margin-bottom:12px;">
-      <div class="flow-box">Step 1：盤點 DMP 完整測項 ∩ iCatch 現有測項<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">找出重複項（合併）、DMP 獨有項、iCatch 原有項</span></div>
+      <div class="flow-box">Step 1：盤點 DMP 完整測項 ∩ iCatch 現有測項<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">找出重複項（合併）、DMP 獨有項、iCatch 原有項；已完成初版比對，見 <a href="dmp-icatch-comparison.html" style="color:var(--accent-strong);">dmp-icatch-comparison.html</a></span></div>
       <div class="flow-arrow">→</div>
       <div class="flow-box">Step 2：完整跑一輪，記錄每項工時<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">建立「測項工時對照表」，作為未來時程評估依據</span></div>
     </div>
@@ -444,28 +457,16 @@
     </ul>
   </section>
 
-  <section>
-    <div class="section-head">
-      <span class="tag">這套流程直接回應的問題</span>
-      <h2>對照 DMP-415 的三個缺口</h2>
-    </div>
-    <ul class="clean">
-      <li><b>Customer Scenario Gap</b> → 客戶完整測試腳本自 W3 起優先排入驗證（交付重點），且是必要 Gate，非選擇性項目</li>
-      <li><b>Reproduction Gap</b> → 板子資源盤點與擴充規劃（另案處理），並建立自動化 log/coredump 監控機制</li>
-      <li><b>流程時序錯亂</b> → Long-run 測試提前到 Beta 前，Internal Beta 起客戶與 iCatch 同步驗證，不再接力等待</li>
-    </ul>
-  </section>
-
   <section id="ask">
     <div class="section-head">
       <span class="tag">下一步</span>
       <h2>需要的決策與支持</h2>
     </div>
     <div class="commit-list">
-      <div class="commit-item"><div class="icon">1</div><p>認可新流程作為未來 SDK Release 的標準作業方式</p></div>
+      <div class="commit-item"><div class="icon">1</div><p>討論新流程作為未來 SDK Release 的標準作業方式</p></div>
       <div class="commit-item"><div class="icon">2</div><p>Release 頻率調整：7 週標準週期，年約 7 次（原本 6 週約 8 次）</p></div>
-      <div class="commit-item"><div class="icon">3</div><p>支持板子資源擴充規劃，作為 Reproduction Gap 的長期解方</p></div>
-      <div class="commit-item"><div class="icon">4</div><p>10/7 對外向 DMP 說明本次改善方向</p></div>
+      <div class="commit-item"><div class="icon">3</div><p>請客戶支持板子資源擴充規劃，作為 Reproduction Gap 的長期解方</p></div>
+      <div class="commit-item"><div class="icon">4</div><p>對外向 DMP 說明本次改善方向：<a href="sdk-release-plan.html" style="color:var(--accent);font-weight:700;">sdk-release-plan.html</a></p></div>
     </div>
   </section>
 
