@@ -158,8 +158,8 @@
 
   // Keyboard navigation: PageUp/PageDown/ArrowLeft/ArrowRight -> real page links
   function fadeNavigate(href){
-    document.body.classList.remove('loaded');
-    setTimeout(()=>{ window.location.href = href; }, 200);
+    fadeOutBlock();
+    setTimeout(()=>{ window.location.href = href; }, FADE_MS);
   }
   document.addEventListener('keydown', e=>{
     if(e.key === 'PageDown' || e.key === 'ArrowRight'){
@@ -189,16 +189,37 @@
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
 
-  // Fade-in on load, fade-out before internal page navigation
-  requestAnimationFrame(()=>{ document.body.classList.add('loaded'); });
+  // Fade+scale transition on the page's color block (not the whole page)
+  const pageBlock = (function(){
+    const kids = Array.from(stage.children).filter(el => el !== canvas);
+    return kids[0] || null;
+  })();
+  if(pageBlock){
+    pageBlock.style.transition = 'opacity .22s ease, transform .22s ease';
+    pageBlock.style.transformOrigin = 'center center';
+    pageBlock.style.opacity = '0';
+    pageBlock.style.transform = 'scale(0.92)';
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        pageBlock.style.opacity = '1';
+        pageBlock.style.transform = 'scale(1)';
+      });
+    });
+  }
   const FADE_MS = 200;
+  function fadeOutBlock(){
+    if(pageBlock){
+      pageBlock.style.opacity = '0';
+      pageBlock.style.transform = 'scale(0.92)';
+    }
+  }
   document.querySelectorAll('a[href$=".html"]').forEach(a=>{
     a.addEventListener('click', (e)=>{
       if(a.getAttribute('aria-disabled')==='true') return;
       const href = a.getAttribute('href');
       if(!href || href==='#') return;
       e.preventDefault();
-      document.body.classList.remove('loaded');
+      fadeOutBlock();
       setTimeout(()=>{ window.location.href = href; }, FADE_MS);
     });
   });

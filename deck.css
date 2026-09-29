@@ -23,10 +23,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC",Helvetica,Arial,sans-serif;
   -webkit-font-smoothing:antialiased;
   overflow:hidden;
-  opacity:0;
-  transition:opacity .22s ease;
 }
-body.loaded{opacity:1;}
 
 .app{display:flex;height:100vh;height:100dvh;}
 
