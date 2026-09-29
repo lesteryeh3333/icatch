@@ -195,23 +195,23 @@
     return kids[0] || null;
   })();
   if(pageBlock){
-    pageBlock.style.transition = 'opacity .22s ease, transform .22s ease';
+    pageBlock.style.transition = 'opacity .38s ease, transform .38s cubic-bezier(.25,.7,.4,1)';
     pageBlock.style.transformOrigin = 'center center';
     pageBlock.style.opacity = '0';
-    pageBlock.style.transform = 'scale(0.92)';
+    pageBlock.style.transform = 'scale(0.82)';
     requestAnimationFrame(()=>{
       requestAnimationFrame(()=>{
         pageBlock.style.opacity = '1';
         pageBlock.style.transform = 'scale(1)';
-        setTimeout(()=>{ pageBlock.style.transform = 'none'; }, 230);
+        setTimeout(()=>{ pageBlock.style.transform = 'none'; }, 390);
       });
     });
   }
-  const FADE_MS = 200;
+  const FADE_MS = 340;
   function fadeOutBlock(){
     if(pageBlock){
       pageBlock.style.opacity = '0';
-      pageBlock.style.transform = 'scale(0.92)';
+      pageBlock.style.transform = 'scale(0.82)';
     }
   }
   document.querySelectorAll('a[href$=".html"]').forEach(a=>{
