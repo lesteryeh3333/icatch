@@ -3,476 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SDK Release 流程改善 — 內部說明</title>
-<style>
-  :root{
-    --bg:#f7f8fa; --bg-elev:#ffffff; --text:#1a1d23; --text-dim:#5b6270;
-    --border:#e3e6ea; --accent:#2f5fe0; --accent-soft:#e8edfc; --accent-strong:#1c3fa0;
-    --warn:#b5760f; --warn-soft:#fdf1de; --danger:#c1402a; --danger-soft:#fbe8e4;
-    --good:#178a5c; --good-soft:#e5f6ee;
-    --shadow:0 8px 24px rgba(20,25,40,0.08);
-    box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#14161c; --bg-elev:#1c1f28; --text:#eef0f4; --text-dim:#9aa1b0;
-      --border:#2b2f3a; --accent:#6f8eff; --accent-soft:#232a44; --accent-strong:#a8bbff;
-      --warn:#f2b354; --warn-soft:#3a2e18; --danger:#f2604a; --danger-soft:#3a1c16;
-      --good:#5fd6a4; --good-soft:#173327; --shadow:0 8px 28px rgba(0,0,0,0.45);
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#14161c; --bg-elev:#1c1f28; --text:#eef0f4; --text-dim:#9aa1b0;
-    --border:#2b2f3a; --accent:#6f8eff; --accent-soft:#232a44; --accent-strong:#a8bbff;
-    --warn:#f2b354; --warn-soft:#3a2e18; --danger:#f2604a; --danger-soft:#3a1c16;
-    --good:#5fd6a4; --good-soft:#173327; --shadow:0 8px 28px rgba(0,0,0,0.45);
-  }
-  html{scroll-padding-top:env(safe-area-inset-top,0px);}
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC",Helvetica,Arial,sans-serif;
-    line-height:1.6; -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:900px;margin:0 auto;padding:0 20px 80px;}
-
-  .hero{
-    padding:60px 20px 44px; text-align:center;
-    background:radial-gradient(600px 300px at 50% -80px, var(--accent-soft), transparent);
-  }
-  .hero .eyebrow{
-    display:inline-block;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--accent);
-    background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-bottom:18px;
-  }
-  .hero h1{font-size:clamp(26px,5vw,40px);font-weight:800;margin:0 0 14px;letter-spacing:-0.01em;}
-  .hero p{font-size:16px;color:var(--text-dim);max-width:600px;margin:0 auto;}
-
-  section{margin:52px 0;}
-  .section-head{margin-bottom:20px;}
-  .section-head .tag{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin-bottom:6px;display:block;}
-  .section-head h2{font-size:23px;margin:0;font-weight:800;}
-  .section-head p.sub{color:var(--text-dim);font-size:14.5px;margin:8px 0 0;}
-
-  .stat-row{display:flex;gap:14px;flex-wrap:wrap;}
-  .stat{flex:1;min-width:140px;background:var(--bg-elev);border:1px solid var(--border);border-radius:16px;padding:24px 16px;text-align:center;box-shadow:var(--shadow);}
-  .stat .n{font-size:42px;font-weight:800;color:var(--accent);line-height:1;}
-  .stat .lab{font-size:13px;color:var(--text-dim);margin-top:10px;}
-
-  .flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-  .flow-box{flex:1;min-width:220px;background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:18px 20px;font-size:14.5px;font-weight:600;box-shadow:var(--shadow);}
-  .flow-box.danger{background:var(--danger-soft);border-color:transparent;}
-  .flow-arrow{font-size:20px;color:var(--text-dim);}
-  @media (max-width:640px){.flow{flex-direction:column;}.flow-arrow{transform:rotate(90deg);}}
-
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  @media (max-width:720px){.grid3{grid-template-columns:1fr;}}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  @media (max-width:640px){.grid2{grid-template-columns:1fr;}}
-
-  .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow);}
-  .card.danger{background:var(--danger-soft);border-color:transparent;}
-  .card.warn{background:var(--warn-soft);border-color:transparent;}
-  .card.good{background:var(--good-soft);border-color:transparent;}
-  .card .tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.05em;padding:4px 10px;border-radius:999px;margin-bottom:10px;}
-  .tag.danger{background:var(--danger);color:#fff;}
-  .tag.warn{background:var(--warn);color:#fff;}
-  .tag.good{background:var(--good);color:#fff;}
-  .tag.accent{background:var(--accent);color:#fff;}
-  .card h3{margin:0 0 8px;font-size:16px;font-weight:800;}
-  .card p{margin:0;font-size:14px;color:var(--text);}
-
-  table{width:100%;border-collapse:collapse;background:var(--bg-elev);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
-  th{text-align:left;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-dim);padding:12px 16px;border-bottom:2px solid var(--border);background:var(--accent-soft);}
-  td{padding:14px 16px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:top;}
-  tr:last-child td{border-bottom:none;}
-  .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;}
-  .pill.before{background:var(--danger-soft);color:var(--danger);}
-  .pill.after{background:var(--good-soft);color:var(--good);}
-
-  .timeline-scroller{overflow-x:auto;padding:4px 2px 6px;-webkit-overflow-scrolling:touch;}
-  .mini-timeline{display:flex;gap:8px;min-width:680px;}
-  .tstep{flex:1;background:var(--accent-soft);border-radius:12px;padding:14px 8px;text-align:center;font-size:12px;font-weight:700;}
-  .tstep.gate{background:var(--warn-soft);color:var(--warn);}
-  .tstep.milestone{background:var(--good-soft);color:var(--good);}
-  .tstep .w{font-size:10.5px;font-weight:600;color:var(--text-dim);margin-top:4px;}
-
-  ul.clean{margin:0;padding-left:20px;}
-  ul.clean li{margin-bottom:10px;font-size:14.5px;}
-
-  .commit-list{display:grid;gap:10px;}
-  .commit-item{display:flex;gap:12px;align-items:flex-start;background:var(--bg-elev);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);}
-  .commit-item .icon{width:26px;height:26px;border-radius:8px;flex:none;background:var(--accent-soft);color:var(--accent-strong);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
-  .commit-item p{margin:0;font-size:14px;}
-
-  footer{text-align:center;padding:30px 20px 10px;color:var(--text-dim);font-size:12.5px;}
-
-  .toc{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border);padding:10px 0;overflow-x:auto;}
-  .toc-inner{max-width:900px;margin:0 auto;padding:0 20px;display:flex;gap:6px;white-space:nowrap;}
-  .toc a{font-size:12.5px;color:var(--text-dim);text-decoration:none;padding:6px 12px;border-radius:999px;font-weight:600;}
-  .toc a:hover{background:var(--accent-soft);color:var(--accent);}
-</style>
+<title>SDK Release 品質提升方案</title>
+<link rel="stylesheet" href="deck.css">
 </head>
 <body>
 
-<nav class="toc"><div class="toc-inner">
-  <a href="#beta-origin">Beta緣由</a>
-  <a href="#event">事件</a>
-  <a href="#cause">根因</a>
-  <a href="#timing">測項差異</a>
-  <a href="#process">新流程</a>
-  <a href="#train">N/N+1關係</a>
-  <a href="#flex">彈性機制</a>
-  <a href="#multi">多產品</a>
-  <a href="#depth">測試深度</a>
-  <a href="#ask">下一步</a>
-  <a href="dmp-icatch-comparison.html">測項比較</a>
-</div></nav>
+<div class="overlay" id="overlay"></div>
+<div class="app">
 
-<div class="hero">
-  <span class="eyebrow">SDK RELEASE PROCESS — 內部說明</span>
-  <h1>為什麼我們必須改變 SDK Release 流程</h1>
-  <p>BSP 11.5.1 / DMP-415 事件回顧，以及新流程解決了什麼問題</p>
-</div>
-
-<div class="wrap">
-
-  <section id="beta-origin">
-    <div class="section-head">
-      <span class="tag">背景補充・個人觀察</span>
-      <h2>舊流程為何需要 Beta 版本</h2>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div>RELEASE QUALITY PROGRAM</div>
+      SDK Release 品質提升方案
     </div>
-    <div class="card warn">
-      <p style="margin:0 0 10px;">以下是個人推測，非已與 DMP 明確確認過的結論，僅作為理解舊流程動機的參考。</p>
-      <p style="margin:0 0 10px;">在原本 6 週的流程裡，「先出一版 Beta 給 DMP、再等 DMP 回饋」是整個時程的核心節點。這個安排背後，DMP 真正想要的其實是能跟 iCatch 同步驗證，而不是被動等 iCatch 這邊先測完、有問題才發現，導致 release 時程被拖延。</p>
-      <p style="margin:0;">往深一層想，這個訴求追根究柢，很可能反映的是 DMP 對 iCatch 內部測試細節掌握度的不信任——不確定 iCatch 到底測了什麼、測得夠不夠深，所以需要盡早拿到 Beta 版本自己驗證，用自己的驗證結果來確認風險，而不是單純信任 iCatch 這邊回報「測過了、沒問題」。這正是新流程要處理的核心問題之一：不是加快交付 Beta 的速度，而是讓 DMP 在 Beta 釋出前，就能看到 iCatch 已經用同等標準先驗證過。</p>
-    </div>
-  </section>
-
-  <section id="event">
-    <div class="section-head">
-      <span class="tag">事件回顧</span>
-      <h2>客戶測出 6 種問題（DMP-415），我們只重現 1 種</h2>
-    </div>
-    <div class="stat-row">
-      <div class="stat"><div class="n">6</div><div class="lab">客戶長時間測試複製出的問題種類</div></div>
-      <div class="stat"><div class="n">1</div><div class="lab">iCatch 用相同方法可重現的種類</div></div>
-      <div class="stat"><div class="n">1</div><div class="lab">當時可調度測試之 SOM board 數量</div></div>
-    </div>
-    <p style="color:var(--text-dim);font-size:14.5px;margin-top:16px;">這不是單一 bug，而是一次 Release 治理暴露出的結構性缺口。</p>
-  </section>
-
-  <section>
-    <div class="section-head">
-      <span class="tag">釐清主因與次因</span>
-      <h2>測不到，不是因為測項不夠多</h2>
-      <p class="sub">測項數量從來不是問題所在，問題出在測的東西從一開始就不是客戶在用的東西。</p>
-    </div>
-    <div class="flow">
-      <div class="flow-box danger">確實發生過：時程壓力 → 測試項目被壓縮（BSP 11.5.1 真實情況）</div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-box">但這只是助長因素，不是根本原因</div>
-    </div>
-    <p style="color:var(--text-dim);font-size:14.5px;margin-top:16px;">問題出在測項的設計邏輯、測試資源配置、與測試時機安排這三個系統性層面，不是靠增加測項數量就能補上的缺口。</p>
-  </section>
-
-  <section id="cause">
-    <div class="section-head">
-      <span class="tag">根因分析</span>
-      <h2>三個結構性缺口</h2>
-    </div>
-    <div class="grid3">
-      <div class="card danger">
-        <span class="tag danger">缺口 1</span>
-        <h3>Customer Scenario Gap</h3>
-        <p>iCatch 內部 QA 測項的設計邏輯以自身功能驗證角度出發，未對齊 DMP 實際操作情境；非測項數量不足，而是測項未涵蓋真實使用場景，增加測項數量無法補上這個缺口。</p>
-      </div>
-      <div class="card warn">
-        <span class="tag warn">缺口 2</span>
-        <h3>Reproduction Gap</h3>
-        <p>可調度樣本僅 1 台 SOM board，測試機器數量不足限制了並行驗證與交叉比對的能量，需增加測試機器以提高重現率。</p>
-      </div>
-      <div class="card" style="background:var(--accent-soft);">
-        <span class="tag accent">缺口 3</span>
-        <h3>流程時序錯亂</h3>
-        <p>Full Test 要到正式 release 前才真正跑完，Beta 釋出當下其實並未完成全部測試，等於客戶比 iCatch 更早做深度驗證。</p>
-      </div>
-    </div>
-
-    <div class="card warn" style="margin-top:16px;">
-      <h3 style="margin-top:0;">具體板子需求：現況 1 台 → 需求 3 台（＋2 台）</h3>
-      <ul class="clean" style="margin-top:10px;">
-        <li><b>1 台</b>：QA 手動執行 DMP 測項驗證（W3 起優先驗證用）</li>
-        <li><b>2 台</b>：長時間可靠度測試持續運行，支援並行驗證與交叉比對（排除單板硬體個體差異造成的機率性問題）</li>
-      </ul>
-      <p style="margin:10px 0 0;color:var(--text-dim);font-size:13.5px;">此為 SOM board（與客戶同款 Sensor），非 EVB；EVB 可作為常規/非 Sensor 相關驗證之補充樣本，但無法取代 SOM board 於 DMP 測項驗證上的角色。</p>
-    </div>
-  </section>
-
-  <section id="timing">
-    <div class="section-head">
-      <span class="tag">缺口 1 詳解</span>
-      <h2>DMP 測項與 iCatch 測項的差異</h2>
-    </div>
-
-    <div class="card warn" style="margin-top:16px;">
-      <h3 style="margin-top:0;">總結兩點</h3>
-      <ul class="clean" style="margin-top:10px;">
-        <li>問題不是 iCatch 完全沒測，而是 iCatch 現有測項庫裡，v4l2loopback、CPU Clock 調整、GPIO 實際驅動輸出、ADC/PWM 這幾塊完全沒有對應項目，是真正意義上的「沒測到 DMP 會測的東西」；A3000 NPU 與 Stereo Vision（Depth Engine）則屬於 DMP 產品線專屬硬體模組，iCatch 其他平台未必配備，沒測不是通用能力被漏掉，而是本來就屬於 DMP 專屬側的驗證範圍（其中 SV 根頁面索引雖列有「SV 自動化測試」規劃，但未建成分頁、無附件、無判定機制，屬於規劃了卻沒落實的執行落差）</li>
-        <li>DMP 的測項範圍比想像中廣，不是只測 codec/CV 這種核心功能，還系統化涵蓋了板級周邊：GPIO 實際驅動輸出、SPI/RTC/periinfo 列舉、CPU Clock 調整（含暫存器真值驗證與 deadman watchdog）、ADC/PWM。這些在 iCatch 內部測項庫裡，目前只在 <code>01-system</code> 分頁有零星文字步驟提及（如 reset/watchdog），沒有 DMP 這種嚴謹的自動化判定機制</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="process">
-    <div class="section-head">
-      <span class="tag">新版 Release 流程</span>
-      <h2>7 週標準週期，含明確品質關卡</h2>
-    </div>
-    <div class="timeline-scroller">
-      <div class="mini-timeline">
-        <div class="tstep">新功能開發與除錯／每兩天定期驗證<div class="w">W1</div></div>
-        <div class="tstep gate">Alpha 切出<div class="w">W2 五</div></div>
-        <div class="tstep gate">QA 測 DMP＋新功能<div class="w">W3 一</div></div>
-        <div class="tstep">iCatch 自身測項<div class="w">W4</div></div>
-        <div class="tstep milestone">修復／Beta<div class="w">W5 一~四／五</div></div>
-        <div class="tstep">客戶整合驗證<div class="w">W6</div></div>
-        <div class="tstep milestone">Retest（含 A3000 修正驗證）／正式發行<div class="w">W7／五</div></div>
-      </div>
-    </div>
-    <p style="color:var(--text-dim);font-size:14.5px;margin-top:14px;">兩個 Gate（Alpha 切出 / 客戶測項與新功能驗證）取代過去「時間到了就過」的模式。對外版頁面已同步更新為此架構。</p>
-  </section>
-
-  <section id="train">
-    <div class="section-head">
-      <span class="tag">RELEASE TRAIN 模式</span>
-      <h2>N 版與 N+1 版的疊接關係</h2>
-      <p class="sub">dev branch 持續不間斷開發；release branch（N 版）依固定節奏發車。N+1 版的開發不等 N 版結束才開始，兩者時間軸疊接進行。</p>
-    </div>
-
-    <div class="timeline-scroller">
-    <div style="display:flex;gap:0;min-width:960px;padding:10px 4px 14px;">
-
-      <!-- dev spine column -->
-      <div style="position:relative;width:26px;flex:none;">
-        <div style="position:absolute;top:1.5rem;bottom:1.5rem;left:11px;width:3px;background:repeating-linear-gradient(180deg,var(--accent),var(--accent) 7px,transparent 7px,transparent 13px);border-radius:2px;"></div>
-        <!-- N branch point -->
-        <div style="position:absolute;top:calc(1.5rem - 5px);left:6.5px;width:10px;height:10px;border-radius:50%;background:var(--accent);"></div>
-        <div style="position:absolute;top:1.5rem;left:12.5px;width:16px;height:2px;background:var(--accent);"></div>
-        <!-- N+1 branch point, offset 7 rows down (after N's full W1-W7 cycle) -->
-        <div style="position:absolute;top:calc(1.5rem + 7*3.375rem - 5px);left:6.5px;width:10px;height:10px;border-radius:50%;background:var(--warn);"></div>
-        <div style="position:absolute;top:calc(1.5rem + 7*3.375rem);left:12.5px;width:16px;height:2px;background:var(--warn);"></div>
-      </div>
-
-      <!-- N column -->
-      <div style="flex:none;width:150px;margin-right:6px;">
-        <div style="font-size:12.5px;font-weight:800;color:var(--text-dim);margin-bottom:6px;">N 版</div>
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W1<br><span style="font-weight:600;font-size:9.5px;">開發／每兩天定期驗證</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--warn-soft);color:var(--warn);border-radius:8px;font-size:12px;font-weight:800;text-align:center;">W2 五<br>Alpha 切出</div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;">W3 一<br>QA 測 DMP+新功能</div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W4<br><span style="font-weight:600;font-size:10.5px;">iCatch 自身測項</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W5 一~四修復<br>五 Beta</div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W6<br><span style="font-weight:600;font-size:10.5px;">客戶整合</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W7<br>Retest／A3000 修正驗證／五 Release</div>
-        </div>
-      </div>
-
-      <!-- N annotation column -->
-      <div style="flex:none;width:150px;margin-right:6px;padding-top:calc(1.5rem + 6px);">
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;"></div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--warn);font-weight:700;">◀ 功能確認點（QA 測試目標穩定，之後僅修 bug）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--text-dim);font-weight:700;">◀ 測試開始，優先：DMP 測項＋本版新功能（長時間可靠度測試同步平行進行）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--text-dim);font-weight:700;">◀ 優先級較低，保留較長時間：整合 side effect／長時間測試不確定性</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--good);font-weight:700;">◀ 須完成交付（deadline，非固定日期）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--text-dim);font-weight:700;">◀ 客戶協作驗證</div>
-          <div style="height:3rem;"></div>
-        </div>
-      </div>
-
-      <!-- N+1 dev-prep timeline column: PM/RD markers, riding on N's week rows -->
-      <div style="flex:none;width:160px;margin-right:14px;padding-top:calc(1.5rem + 6px);border-left:1.5px dashed var(--accent);padding-left:10px;">
-        <div style="font-size:10.5px;color:var(--accent-strong);font-weight:800;margin-bottom:4px;margin-top:-1.3rem;">N+1 開發準備（疊在 N 版時間軸上，額外頭期時間）</div>
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;"></div>
-          <div style="height:3rem;"></div>
-          <div style="height:3rem;"></div>
-          <div style="height:3rem;"></div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--accent-strong);font-weight:700;">● PM/PL：N+1 需求最晚於本週提出（截止點）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--accent-strong);font-weight:700;">● RD：提早於 dev branch 開發 N+1（頭期第 1 週）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--accent-strong);font-weight:700;">● RD：頭期開發（第 2 週）</div>
-        </div>
-      </div>
-
-      <!-- N+1 column, offset down by 7 rows: starts after N's full W1-W7 cycle. Mirrors N's structure exactly (7 rows) -->
-      <div style="flex:none;width:150px;margin-right:6px;">
-        <div style="height:calc(7*3.375rem);"></div>
-        <div style="font-size:12.5px;font-weight:800;color:var(--text-dim);margin-bottom:6px;">N+1 版</div>
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W1<br><span style="font-weight:600;font-size:9.5px;">開發／每兩天定期驗證</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--warn-soft);color:var(--warn);border-radius:8px;font-size:12px;font-weight:800;text-align:center;">W2 五<br>Alpha 切出</div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:11.5px;font-weight:700;text-align:center;">W3 一<br>QA 測 DMP+新功能</div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;text-align:center;">W4<br><span style="font-weight:600;font-size:10.5px;">iCatch 自身測項</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W5 一~四修復<br>五 Beta</div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--accent-soft);border-radius:8px;font-size:12.5px;font-weight:700;">W6<br><span style="font-weight:600;font-size:10.5px;">客戶整合</span></div>
-          <div style="height:3rem;display:flex;align-items:center;justify-content:center;background:var(--good-soft);color:var(--good);border-radius:8px;font-size:11.5px;font-weight:800;text-align:center;">W7<br>Retest／A3000 修正驗證／五 Release</div>
-        </div>
-      </div>
-
-      <!-- N+1 annotation column -->
-      <div style="flex:none;width:150px;padding-top:calc(7*3.375rem + 1.5rem + 6px);">
-        <div style="display:flex;flex-direction:column;gap:0.375rem;">
-          <div style="height:3rem;"></div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--warn);font-weight:700;">◀ 功能確認點（同 N 版邏輯）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--text-dim);font-weight:700;">◀ 測試開始，優先：DMP 測項＋新功能（長時間可靠度測試同步平行進行）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--text-dim);font-weight:700;">◀ 優先級較低，保留較長時間</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--good);font-weight:700;">◀ 須完成交付（deadline）</div>
-          <div style="height:3rem;display:flex;align-items:center;font-size:11px;color:var(--text-dim);font-weight:700;">◀ 客戶協作驗證</div>
-          <div style="height:3rem;"></div>
-        </div>
-      </div>
-
-    </div>
-    </div>
-    <p style="color:var(--text-dim);font-size:13.5px;margin-top:6px;">dev 為主幹，持續不間斷開發。<b>N 版 W2 五 Alpha 切出</b>＝功能確認點，目的是讓 QA 測試目標穩定；之後僅修 bug、不進新功能。<b>W3 一起 QA 優先測 DMP 測項與本版新功能</b>（交付重點、風險最集中處，長時間可靠度測試自此同步平行進行，不等 W4 才開始），<b>W4 才測 iCatch 自身測項</b>。<b>W5 五 Beta 為 deadline、非固定日期</b>：若雙軌測試提前收斂，仍建議保留最低緩衝天數再放行，不鼓勵養成「測完就衝」的習慣。<b>每一版結構完全一致、皆為 7 週</b>：<b>PM/PL 須於 N-W5 前提出 N+1 需求</b>，RD 可提早於 N-W6、N-W7 在 dev branch 上開始開發 N+1（頭期優勢，非強制），接續 N+1 自己完整的 7 週週期（W1 開發、W2 五 Alpha、W3 起測試…W7 五 Release），架構與 N 版完全對稱，不因頭期開發而壓縮 N+1 自己的週期長度。</p>
-  </section>
-
-  <section id="flex">
-    <div class="section-head">
-      <span class="tag">彈性機制</span>
-      <h2>7 週標準 ＋ 條件式 +1 週</h2>
-      <p class="sub">7 週是標準週期，非死板天數。當特定條件觸發時，系統性多留一週，而非每次都預先犧牲這一週，也不是臨時硬趕。</p>
-    </div>
-    <div class="card warn" style="margin-bottom:14px;">
-      <h3 style="margin-top:0;">觸發判斷點（對應既有 Gate 檢查時間）</h3>
-      <ul class="clean" style="margin-top:10px;">
-        <li><b>W5 週三（Beta Gate）</b>：若 W3-W4 驗證後仍有 Critical（會當機）問題未解決、或 root cause 仍未定位清楚，於此時點評估是否需延後 Beta。這是 Beta 前的最後防線，逾此時點才發現的問題已無足夠緩衝，必須在此前決斷</li>
-        <li><b>W6 週四（Release Gate）</b>：客戶於 W6 整合測試期間，可能於任一天回報問題（含新增測項發現者），不限於週初；若問題複雜、於週四評估無法在週五前收斂，不代表立即觸發 +1 週——仍有機會於 W7 一~二 Retest 期間收斂；僅在確認 W7 仍無法收斂時，才正式觸發 +1 週</li>
-      </ul>
-    </div>
-
-    <div class="card danger" style="margin-bottom:14px;">
-      <h3 style="margin-top:0;">安全閥：+1 週用完仍未解決時，不得再自動延長</h3>
-      <p style="margin:0 0 10px;">7 週 → 8 週是機制內建、可預期的一次性延長。若第 8 週結束問題仍未收斂（例如 root cause 持續難以定位），<b>不得再依同一套機制自動延到第 9 週</b>，必須跳出來走正式 Risk Acceptance 決策，二擇一：</p>
-      <ul class="clean" style="margin-top:0;">
-        <li><b>正式決定再延</b>：需簽核、留下正式紀錄，不能默默拖延</li>
-        <li><b>帶已知風險 Release</b>：明確記錄哪些問題尚未解決、風險評估與緩解措施，經簽核後才可放行</li>
-      </ul>
-      <p style="margin:10px 0 0;color:var(--text-dim);font-size:13.5px;">核心原則：不能像 11.5.1 為了 release 時間到了就默默地把測項減少。</p>
-    </div>
-
-    <div class="card warn" style="margin-bottom:14px;">
-      <h3 style="margin-top:0;">Beta 釋出後，客戶自行新增測項的處理</h3>
-      <p style="margin:0 0 10px;">DMP 可能在 W6 整合期間，自行新增原先未涵蓋的測項並測出問題。判斷標準與既有規則一致，唯一閘門是「是否為 Critical」：</p>
-      <ul class="clean" style="margin-top:0;">
-        <li><b>發現 Critical（會當機）問題</b>：不論是否為原先承諾涵蓋的測項，一律納入 W6 末的問題收斂判斷，可能觸發 +1 週彈性</li>
-        <li><b>非 Critical</b>：記錄後排入 W7 一~二的下一版新測項窗口，不影響本次 W7 時程</li>
-      </ul>
-      <p style="margin:10px 0 0;color:var(--text-dim);font-size:13.5px;">核心原則：只有 Critical 能觸發延遲，不能讓「客戶持續新增測項」本身變成無限期拖延 release 的理由，否則 Gate 機制形同虛設。</p>
-    </div>
-
-    <div class="card" style="margin-bottom:14px;background:var(--accent-soft);">
-      <h3 style="margin-top:0;">新測項如何併入下一版 DMP 測項清單</h3>
-      <p style="margin:0;">無論是 W6 客戶自行新增、或 W7 一二正式提交的下一版新測項，都須正式併入 DMP 測項清單，而非直接排入開發規劃。併入方式比照 <a href="#multi" style="color:var(--accent-strong);">Multi-product Coupling</a> 章節所定義的評估機制：先判斷與 iCatch 現有測項是否重複（找交集）、記錄執行工時（更新測項工時對照表），再依數量與複雜度決定是否需要觸發完整評估空窗期，或可直接排入 N+1 的 W1 消化——不是每次新增測項都重新從零評估。</p>
-    </div>
-  </section>
-
-  <section id="multi">
-    <div class="section-head">
-      <span class="tag">尚未解決的缺口</span>
-      <h2>Multi-product Coupling — 多產品共用同一 BSP Release Train</h2>
-      <p class="sub">目前整套流程只解決了 DMP 這一條產品線；BSP release train 上還有其他產品線共用同一份 code base 與同一個 release 日期，這件事目前尚未有具體解法。</p>
-    </div>
-
-    <div class="card warn" style="margin-bottom:16px;">
-      <span class="tag warn">現況</span>
-      <h3>其他產品線目前仍停留在功能測試 + 個別壓力測試</h3>
-      <p>DMP 因這次事件已被迫拉高到含長時間可靠度測試與 Customer Scenario 的驗證水準；其他產品線尚未導入。若不釐清邊界，可能出現兩種風險：DMP 的高規格被迫套用到其他產品線（QA 資源直接不堪負荷），或其他產品線的 change 影響到共用底層（如 Encoder），卻只有 DMP 在做長時間驗證，問題持續被漏掉。</p>
-    </div>
-
-    <div class="section-head" style="margin-top:28px;margin-bottom:14px;">
-      <h3 style="font-size:17px;margin:0;">解法方向：BSP Core + Product Profile</h3>
-    </div>
-    <div class="grid2">
-      <div class="card" style="background:var(--accent-soft);">
-        <span class="tag accent">BSP Core（全產品共同）</span>
-        <h3>共用底層，強制執行</h3>
-        <p>Kernel / ISP driver / Memory / IPC，以及 <b>Encoder（H264/H265/MJPG）與長時間可靠度測試</b> — 已確認 Encoder 為所有產品共用模組，長時間可靠度風險不是 DMP 專屬，應拉進 Core，全產品受益、不需各自重跑。</p>
-      </div>
-      <div class="card good">
-        <span class="tag good">Product Profile（各產品專屬）</span>
-        <h3>在 Core 之上疊加</h3>
-        <p>DMP Profile：Face AE、Customer Scenario 等 DMP 專屬測項。其他產品線維持現有功能測試 + 壓力測試，不強制比照 DMP 拉高規格，除非該產品線自己也發生類似事件。</p>
-      </div>
-    </div>
-
-    <div class="section-head" style="margin-top:28px;margin-bottom:14px;">
-      <h3 style="font-size:17px;margin:0;">執行前置：一次性 2 週整合評估空窗期</h3>
-    </div>
-    <div class="flow" style="margin-bottom:12px;">
-      <div class="flow-box">Step 1：盤點 DMP 完整測項 ∩ iCatch 現有測項<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">找出重複項（合併）、DMP 獨有項、iCatch 原有項；已完成初版比對，見 <a href="dmp-icatch-comparison.html" style="color:var(--accent-strong);">dmp-icatch-comparison.html</a></span></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-box">Step 2：完整跑一輪，記錄每項工時<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">建立「測項工時對照表」，作為未來時程評估依據</span></div>
-    </div>
-    <ul class="clean">
-      <li>此 2 週為<b>第一次系統化分析</b>客戶完整測試腳本所需的一次性投入，非每輪 release 固定週期</li>
-      <li>正式排定 2 週長度前，須先看過雙方 script 內容，確認測項規模後再校準此數字</li>
-      <li>之後客戶提交的新增測項（W7 一~二窗口），若能對應到既有工時對照表的類型，直接排入下一輪 W1 消化，不需再走完整 2 週；僅在測項數量多或全新場景時，才視情況觸發較短的評估期</li>
+    <ul class="nav-list">
+      <li><a class="nav-item active" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試，到對齊實際場景</a></li>
+      <li><a class="nav-item" href="page3.html"><span class="n">3</span>Release 週期調整</a></li>
+      <li><a class="nav-item" href="page4.html"><span class="n">4</span>新流程時間軸</a></li>
+      <li><a class="nav-item" href="page5.html"><span class="n">5</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">6</span>iCatCv</a></li>
+      <li><a class="nav-item" href="page7.html"><span class="n">7</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">8</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page9.html"><span class="n">9</span>收尾</a></li>
     </ul>
+    <div class="sidebar-foot">iCatch</div>
+  </nav>
 
-    <div class="section-head" style="margin-top:28px;margin-bottom:14px;">
-      <h3 style="font-size:17px;margin:0;">自動化測試：列為第二階段</h3>
-    </div>
-    <p style="font-size:14.5px;color:var(--text-dim);margin:0 0 8px;">測項集合尚未穩定前投入自動化，容易發生腳本做到一半、測項又調整的白工。順序應為：先人工跑穩、測項與工時定案 → 再投入自動化，並依工時對照表排定自動化優先順序。</p>
-
-    <div class="section-head" style="margin-top:28px;margin-bottom:14px;">
-      <h3 style="font-size:17px;margin:0;">產出物：iCatch 標準測項文件</h3>
-    </div>
-    <p style="font-size:14.5px;color:var(--text-dim);">正式文件化 BSP Core + 各 Product Profile 測項清單，並標註每項來源（iCatch 原有／DMP 提供／兩者合併）。每次 release 可附上「本次驗證涵蓋範圍」，作為對客戶主動告知涵蓋範圍時的具體依據，而非空泛承諾。</p>
-  </section>
-
-  <section id="depth">
-    <div class="section-head">
-      <span class="tag">被漏掉的省思</span>
-      <h2>iCatch 測試深度，目前沒有客觀標準</h2>
-      <p class="sub">「客戶發現的問題會被納入測項」只證明 iCatch 有在學習，不能證明現在的測試「已經夠細」——這兩件事邏輯上是分開的，不能互相替代。</p>
-    </div>
-    <div class="card danger" style="margin-bottom:16px;">
-      <h3 style="margin-top:0;">會被直接挑戰的問題</h3>
-      <p style="margin:0;">「你們有把客戶發現的問題補回測項，那下一個還沒被客戶發現的問題呢？你們怎麼知道測項『現在』夠細，而不是又要等客戶測出來才知道？」— 目前的 regression 機制是被動補強（不重演已發生的問題），不是主動的測試深度管理，沒有回答「多細才算細」這個問題。</p>
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="progress">1 / 9　封面</div>
+      <div class="hl-toolbar">
+        <button class="hl-btn" data-tool="draw" title="螢光筆">🖊️</button>
+        <button class="hl-btn" data-tool="erase" title="橡皮擦">🧹</button>
+        <button class="hl-btn" data-tool="laser" title="雷射筆">🔴</button>
+        <button class="hl-btn" id="clearBtn" title="一鍵清空">✕</button>
+        <button class="hl-btn" id="fsBtn" title="全螢幕">⛶</button>
+      </div>
+      <div class="dots">
+        <div class="dot on"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
     </div>
 
-    <div class="section-head" style="margin-top:26px;margin-bottom:14px;">
-      <h3 style="font-size:17px;margin:0;">兩階段計畫</h3>
+    <div class="stage" id="stage">
+      <canvas class="hl-canvas" id="hlCanvas"></canvas>
+      <div class="slide" style="justify-content:center;">
+        <div class="eyebrow">RELEASE QUALITY PROGRAM</div>
+        <h1 style="font-size:40px;">SDK Release 品質提升方案</h1>
+        <p class="lead" style="font-size:16px;">我們重新調整了 SDK release 的驗證流程與協作方式。</p>
+        <div style="margin-top:32px;font-size:13px;color:var(--ink-dim);font-weight:600;letter-spacing:.02em;">
+          iCatch　｜　2026年10月
+        </div>
+      </div>
     </div>
-    <div class="flow" style="margin-bottom:12px;">
-      <div class="flow-box">Phase 1：以 DMP 標準掃一遍 iCatch 現有測項<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">沿用 Multi-product 章節已定義之交集分析（Step1/Step2），非另起爐灶</span></div>
-      <div class="flow-arrow">→</div>
-      <div class="flow-box">Phase 2：訂定 iCatch 測試深度分級標準<br><span style="font-weight:400;color:var(--text-dim);font-size:13px;">待 Phase 1 掃描結果出爐後，才有依據討論怎麼分級</span></div>
-    </div>
-    <ul class="clean">
-      <li><b>Phase 1 不是新增工作</b>：與 Multi-product 章節「盤點 DMP 測項 ∩ iCatch 現有測項」是同一件事，用 DMP 標準當作檢視基準，找出 iCatch 現有測項在深度上（非只有覆蓋範圍）的落差</li>
-      <li>Phase 2 屬於下一階段討論，<b>此時尚未展開</b>，需先有 Phase 1 的具體掃描結果（哪些項目深度不足、不足在哪）才有依據訂標準，避免憑空定規則</li>
-      <li>可能的分級方向（待 Phase 1 結果確認後細化）：依 Risk Level（Critical / High / Medium / Low）決定對應之驗證深度，與 Change Impact Matrix 邏輯一致</li>
-    </ul>
-  </section>
 
-  <section id="ask">
-    <div class="section-head">
-      <span class="tag">下一步</span>
-      <h2>需要的決策與支持</h2>
+    <div class="navbtns">
+      <a class="navbtn" id="prevBtn" href="#" aria-disabled="true">← 上一頁</a>
+      <a class="navbtn primary" id="nextBtn" href="page2.html">下一頁 →</a>
     </div>
-    <div class="commit-list">
-      <div class="commit-item"><div class="icon">1</div><p>討論新流程作為未來 SDK Release 的標準作業方式</p></div>
-      <div class="commit-item"><div class="icon">2</div><p>Release 頻率調整：7 週標準週期，年約 7 次（原本 6 週約 8 次）</p></div>
-      <div class="commit-item"><div class="icon">3</div><p>請客戶支持板子資源擴充規劃，作為 Reproduction Gap 的長期解方</p></div>
-      <div class="commit-item"><div class="icon">4</div><p>對外向 DMP 說明本次改善方向：<a href="sdk-release-plan.html" style="color:var(--accent);font-weight:700;">sdk-release-plan.html</a></p></div>
-    </div>
-  </section>
+  </div>
 
 </div>
 
-<footer>SDK Release Process Review ・ Internal</footer>
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" data-tool="draw">🖊️ 螢光筆</div>
+  <div class="ctx-item" data-tool="erase">🧹 橡皮擦</div>
+  <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
+  <div class="ctx-item" id="ctxFs">⛶ 全螢幕</div>
+</div>
 
+<script src="deck.js"></script>
 </body>
 </html>
