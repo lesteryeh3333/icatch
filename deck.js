@@ -142,8 +142,15 @@
     fab.addEventListener('click', (e)=>{
       e.stopPropagation();
       const rect = fab.getBoundingClientRect();
-      ctxMenu.style.left = Math.min(rect.left - 150, window.innerWidth-210) + 'px';
-      ctxMenu.style.top = (rect.top - 220) + 'px';
+      const menuWidth = 200, menuHeight = 230;
+      let left = rect.left - menuWidth + rect.width;
+      let top = rect.bottom + 8;
+      left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
+      if(top + menuHeight > window.innerHeight){
+        top = Math.max(8, rect.top - menuHeight - 8);
+      }
+      ctxMenu.style.left = left + 'px';
+      ctxMenu.style.top = top + 'px';
       ctxMenu.classList.add('show');
       updateToolbarUI();
     });
