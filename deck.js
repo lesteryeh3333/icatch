@@ -189,29 +189,27 @@
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
 
-  // Fade+scale transition on the page's color block (not the whole page)
-  const pageBlock = (function(){
+  // Expand-from-center transition on the page's color block (not the whole page)
+  // Skipped entirely on pages that opt out (their own internal animation takes over)
+  const skipTransition = document.body.hasAttribute('data-no-transition');
+  const pageBlock = skipTransition ? null : (function(){
     const kids = Array.from(stage.children).filter(el => el !== canvas);
     return kids[0] || null;
   })();
   if(pageBlock){
-    pageBlock.style.transition = 'opacity .6s ease, transform .6s ease';
-    pageBlock.style.transformOrigin = 'center center';
-    pageBlock.style.opacity = '0';
-    pageBlock.style.transform = 'scale(0.6)';
+    pageBlock.style.transition = 'clip-path .5s ease';
+    pageBlock.style.clipPath = 'inset(50% 50% 50% 50% round 14px)';
     requestAnimationFrame(()=>{
       requestAnimationFrame(()=>{
-        pageBlock.style.opacity = '1';
-        pageBlock.style.transform = 'scale(1)';
-        setTimeout(()=>{ pageBlock.style.transform = 'none'; }, 620);
+        pageBlock.style.clipPath = 'inset(0% 0% 0% 0% round 14px)';
+        setTimeout(()=>{ pageBlock.style.clipPath = 'none'; }, 520);
       });
     });
   }
   const FADE_MS = 380;
   function fadeOutBlock(){
     if(pageBlock){
-      pageBlock.style.opacity = '0';
-      pageBlock.style.transform = 'scale(0.6)';
+      pageBlock.style.clipPath = 'inset(50% 50% 50% 50% round 14px)';
     }
   }
   document.querySelectorAll('a[href$=".html"]').forEach(a=>{
