@@ -136,6 +136,19 @@
   const ctxFs = document.getElementById('ctxFs');
   if(ctxFs) ctxFs.addEventListener('click', toggleFullscreen);
 
+  // Mobile fallback: floating button opens same tool menu
+  const fab = document.getElementById('toolsFab');
+  if(fab){
+    fab.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const rect = fab.getBoundingClientRect();
+      ctxMenu.style.left = Math.min(rect.left - 150, window.innerWidth-210) + 'px';
+      ctxMenu.style.top = (rect.top - 220) + 'px';
+      ctxMenu.classList.add('show');
+      updateToolbarUI();
+    });
+  }
+
   // Keyboard navigation: PageUp/PageDown/ArrowLeft/ArrowRight -> real page links
   document.addEventListener('keydown', e=>{
     if(e.key === 'PageDown' || e.key === 'ArrowRight'){

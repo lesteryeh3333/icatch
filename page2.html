@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SDK Release 品質提升方案</title>
+<title>SDK Release 品質提升方案 — 從功能測試，到對齊實際場景</title>
 <link rel="stylesheet" href="deck.css">
 </head>
 <body>
@@ -17,8 +17,8 @@
       SDK Release 品質提升方案
     </div>
     <ul class="nav-list">
-      <li><a class="nav-item active" href="index.html"><span class="n">1</span>封面</a></li>
-      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試，到對齊實際場景</a></li>
+      <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item active" href="page2.html"><span class="n">2</span>從功能測試，到對齊實際場景</a></li>
       <li><a class="nav-item" href="page3.html"><span class="n">3</span>Release 週期調整</a></li>
       <li><a class="nav-item" href="page4.html"><span class="n">4</span>新流程時間軸</a></li>
       <li><a class="nav-item" href="page5.html"><span class="n">5</span>iCatch 測項規劃</a></li>
@@ -33,30 +33,35 @@
   <div class="main">
     <div class="topbar">
       <button class="menu-btn" id="menuBtn">☰</button>
-      <div class="progress">1 / 9　封面</div>
+      <div class="progress">2 / 9　從功能測試，到對齊實際場景</div>
       <div style="font-size:12px;color:var(--ink-dim);">按滑鼠右鍵開啟工具選單</div>
-      <div class="dots">
-        <div class="dot on"></div><div class="dot"></div><div class="dot"></div>
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-      </div>
+      <div class="dots"><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
 
     <div class="stage" id="stage">
       <canvas class="hl-canvas" id="hlCanvas"></canvas>
-      <div class="slide" style="justify-content:center;">
-        <div class="eyebrow">RELEASE QUALITY PROGRAM</div>
-        <h1 style="font-size:40px;">SDK Release 品質提升方案</h1>
-        <p class="lead" style="font-size:16px;">我們重新調整了 SDK release 的驗證流程與協作方式。</p>
-        <div style="margin-top:32px;font-size:13px;color:var(--ink-dim);font-weight:600;letter-spacing:.02em;">
-          iCatch　｜　2026年10月
+      <div class="slide">
+        <div class="eyebrow">調整方向</div>
+        <h1>從功能測試，到對齊實際場景</h1>
+        <p class="lead">過去我們的驗證重點，主要放在功能是否正常運作。經過近期幾次問題的回饋，我們提出兩個方向的調整。</p>
+        <div class="two-col">
+          <div class="card">
+            <span class="tag">01</span>
+            <h3>對應 DMP 測項</h3>
+            <p>把貴司實際使用的測試項目與操作情境，正式納入我們的驗證流程。</p>
+          </div>
+          <div class="card">
+            <span class="tag">02</span>
+            <h3>內部 Review</h3>
+            <p>重新檢視 iCatch 既有測項的設計邏輯與涵蓋深度，找出需要補強的地方。</p>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="navbtns">
-      <a class="navbtn" id="prevBtn" href="#" aria-disabled="true">← 上一頁</a>
-      <a class="navbtn primary" id="nextBtn" href="page2.html">下一頁 →</a>
+      <a class="navbtn" id="prevBtn" href="index.html">← 上一頁</a>
+      <a class="navbtn primary" id="nextBtn" href="page3.html">下一頁 →</a>
     </div>
   </div>
 

@@ -188,6 +188,17 @@ body.laser-on .stage{cursor:none;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:15;display:none;}
 .overlay.show{display:block;}
 
+.tools-fab{
+  position:fixed;right:20px;bottom:88px;z-index:30;
+  width:48px;height:48px;border-radius:50%;
+  background:var(--purple);color:#fff;border:none;
+  font-size:18px;box-shadow:0 8px 20px rgba(59,37,87,0.3);
+  display:none;align-items:center;justify-content:center;cursor:pointer;
+}
+@media (max-width:760px){
+  .tools-fab{display:flex;}
+}
+
 @media (max-width:760px){
   .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:20;transform:translateX(-100%);transition:.2s;width:80%;max-width:280px;}
   .sidebar.open{transform:translateX(0);}
