@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SDK Release 品質提升方案</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+<div class="app">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div>RELEASE QUALITY PROGRAM</div>
+      SDK Release 品質提升方案
+    </div>
+    <ul class="nav-list">
+      <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item active" href="page2.html"><span class="n">2</span>從功能測試到週期調整</a></li>
+      <li><a class="nav-item" href="page4.html"><span class="n">3</span>新流程時間軸</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">4</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">5</span>iCatCv</a></li>
+      <li><a class="nav-item" href="page10.html"><span class="n">6</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">7</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">8</span>收尾</a></li>
+    </ul>
+    <div class="sidebar-foot">iCatch</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="progress">2 / 8　從功能測試到週期調整</div>
+      <div style="font-size:12px;color:var(--ink-dim);">按滑鼠右鍵開啟工具選單</div>
+      <div class="dots"><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <canvas class="hl-canvas" id="hlCanvas"></canvas>
+      <div class="slide">
+        <div class="eyebrow">調整方向 ／ RELEASE 週期</div>
+        <h1>從功能測試，到對齊實際場景</h1>
+        <p class="lead">點項目查看細節。</p>
+        <div class="cp-panel" style="background:#C23B5B;">
+          <div class="cp-eyebrow">WHAT CHANGED</div>
+          <h2>兩個方向的調整</h2>
+          <div class="cp-sub">過去我們的驗證重點，主要放在功能是否正常運作。經過近期幾次問題的回饋，我們提出以下調整。</div>
+          <div class="cp-grid">
+            <div class="cp-card">
+              <div class="cp-num">01</div>
+              <h3>對應 DMP 測項</h3>
+              <p>把貴司實際使用的測試項目與操作情境，正式納入我們的驗證流程。</p>
+            </div>
+            <div class="cp-card">
+              <div class="cp-num">02</div>
+              <h3>內部 Review</h3>
+              <p>重新檢視 iCatch 既有測項的設計邏輯與涵蓋深度，找出需要補強的地方。</p>
+            </div>
+          </div>
+          <ul class="cp-list" style="margin-top:18px;">
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">!</div><div class="cp-item-title">Release 週期由 6 週調整為 7 週</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>為完整納入長時間驗證與貴司測項的優先驗證，同時保留足夠整合時間，我們重新評估後做了這個調整。多這一週，換來交付前更完整的驗證，降低交付後才發現重大問題的機會。</p></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbtns">
+      <a class="navbtn" id="prevBtn" href="index.html">← 上一頁</a>
+      <a class="navbtn primary" id="nextBtn" href="page4.html">下一頁 →</a>
+    </div>
+  </div>
+
+</div>
+
+<button class="tools-fab" id="toolsFab" title="工具選單">🖊️</button>
+
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" data-tool="draw">🖊️ 螢光筆</div>
+  <div class="ctx-item" data-tool="erase">🧹 橡皮擦</div>
+  <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
+  <div class="ctx-item" id="ctxFs">⛶ 全螢幕</div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>

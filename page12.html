@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SDK Release 品質提升方案</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+<div class="app">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div>RELEASE QUALITY PROGRAM</div>
+      SDK Release 品質提升方案
+    </div>
+    <ul class="nav-list">
+      <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試到週期調整</a></li>
+      <li><a class="nav-item" href="page4.html"><span class="n">3</span>新流程時間軸</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">4</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">5</span>iCatCv</a></li>
+      <li><a class="nav-item" href="page10.html"><span class="n">6</span>我們的承諾</a></li>
+      <li><a class="nav-item active" href="page12.html"><span class="n">7</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">8</span>收尾</a></li>
+    </ul>
+    <div class="sidebar-foot">iCatch</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="progress">7 / 8　客戶協作重點</div>
+      <div style="font-size:12px;color:var(--ink-dim);">按滑鼠右鍵開啟工具選單</div>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <canvas class="hl-canvas" id="hlCanvas"></canvas>
+      <div class="slide">
+        <div class="eyebrow">COLLABORATION</div>
+        <h1>客戶協作重點</h1>
+        <p class="lead">點項目查看細節。</p>
+        <div class="cp-panel" style="background:#1E8A96;">
+          <div class="cp-eyebrow">YOUR ROLE</div>
+          <h2>貴司在流程中的角色</h2>
+          <ul class="cp-list">
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">①</div><div class="cp-item-title">DMP 測項</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>貴司提供的完整測試腳本，是我們每一版驗證的必要關卡，須全數通過才能進入下一階段。</p></div>
+            </li>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">②</div><div class="cp-item-title">測試項目回歸</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>貴司回饋過的問題，會永久納入我們的自動化迴歸測試，不會重複發生同一類問題。</p></div>
+            </li>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">③</div><div class="cp-item-title">測試時間控制於一週</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>貴司整合測試安排在固定一週內進行，讓雙方時程可預期、好安排。</p></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbtns">
+      <a class="navbtn" id="prevBtn" href="page10.html">← 上一頁</a>
+      <a class="navbtn primary" id="nextBtn" href="page14.html">下一頁 →</a>
+    </div>
+  </div>
+
+</div>
+
+<button class="tools-fab" id="toolsFab" title="工具選單">🖊️</button>
+
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" data-tool="draw">🖊️ 螢光筆</div>
+  <div class="ctx-item" data-tool="erase">🧹 橡皮擦</div>
+  <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
+  <div class="ctx-item" id="ctxFs">⛶ 全螢幕</div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>

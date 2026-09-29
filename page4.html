@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SDK Release 品質提升方案</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+<div class="app">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div>RELEASE QUALITY PROGRAM</div>
+      SDK Release 品質提升方案
+    </div>
+    <ul class="nav-list">
+      <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試到週期調整</a></li>
+      <li><a class="nav-item active" href="page4.html"><span class="n">3</span>新流程時間軸</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">4</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">5</span>iCatCv</a></li>
+      <li><a class="nav-item" href="page10.html"><span class="n">6</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">7</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">8</span>收尾</a></li>
+    </ul>
+    <div class="sidebar-foot">iCatch</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="progress">3 / 8　新流程時間軸</div>
+      <div style="font-size:12px;color:var(--ink-dim);">按滑鼠右鍵開啟工具選單</div>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <canvas class="hl-canvas" id="hlCanvas"></canvas>
+      <div class="slide" style="max-width:1040px;">
+        <div class="eyebrow">NEW PROCESS</div>
+        <h1>7 週標準流程</h1>
+        <p class="lead">點左側週次切換；點右下角 ▼ 展開該週細節。</p>
+
+        <div class="wk-shell">
+          <div class="wk-rail" id="wkRail"></div>
+          <div class="wk-stage" id="wkStage">
+            <div class="wk-eyebrow" id="wkEyebrow"></div>
+            <h2 id="wkTitle"></h2>
+            <div class="wk-sub" id="wkSub"></div>
+            <div class="wk-detail" id="wkDetail"></div>
+            <div class="wk-nav">
+              <div class="wk-nav-row">
+                <button id="wkDown" class="wk-down" title="展開細節">▼</button>
+              </div>
+              <div class="wk-nav-row">
+                <button id="wkPrev" title="上一週">‹</button>
+                <button id="wkNext" title="下一週">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wk-progress"><div class="wk-progress-bar" id="wkProgressBar"></div></div>
+      </div>
+    </div>
+
+    <div class="navbtns">
+      <a class="navbtn" id="prevBtn" href="page2.html">← 上一頁</a>
+      <a class="navbtn primary" id="nextBtn" href="page6.html">下一頁 →</a>
+    </div>
+  </div>
+
+</div>
+
+<button class="tools-fab" id="toolsFab" title="工具選單">🖊️</button>
+
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" data-tool="draw">🖊️ 螢光筆</div>
+  <div class="ctx-item" data-tool="erase">🧹 橡皮擦</div>
+  <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
+  <div class="ctx-item" id="ctxFs">⛶ 全螢幕</div>
+</div>
+
+<script src="deck.js"></script>
+<script>
+const weeks = [
+  {n:'W1', t:'新功能開發與除錯', color:'#C23B5B', sub:'研發團隊進行本次版本規劃的新功能開發。', pts:['研發團隊進行新功能開發','測試團隊同步驗證，跟隨開發進度逐項確認']},
+  {n:'W2 週五', t:'Alpha 切出', color:'#C79A1E', sub:'功能確認點，介面自此穩定。', pts:['新功能開發範圍鎖定，之後僅接受問題修復','介面與功能規格自此穩定，確保驗證結果與最終交付版本一致']},
+  {n:'W3', t:'優先驗證 DMP＋新功能', color:'#2F8F5E', sub:'交付重點，風險最集中處。', pts:['貴司提供的測項須全數通過，是必要驗證關卡','本版新功能同步驗證，與貴司測項同等優先','長時間可靠度測試自本階段起同步平行進行']},
+  {n:'W4', t:'iCatch 自身測項', color:'#1E8A96', sub:'優先級較低，保留較長時間。', pts:['涵蓋多種操作情境的長時間運行與常規驗證','刻意保留較長時間，讓整合過程中的連帶影響有機會浮現']},
+  {n:'W5', t:'修復・Beta 發行', color:'#2E5FA3', sub:'週五發行，為最晚期限、非固定日期。', pts:['週一至週四完成最後修復與複測','週三設中途檢查點：若評估仍有重大問題無法如期解決，會提前與貴司溝通，討論是否需要調整發行時間，不會等到最後一天才告知','週五發行 Beta；若仍有未通過項目，會在發行時主動說明目前驗證涵蓋範圍，不隱瞞']},
+  {n:'W6', t:'客戶整合驗證', color:'#5C6BC0', sub:'貴司整合測試，我方同步補充驗證。', pts:['貴司進行程式碼銜接與整合測試','iCatch 同步進行補充驗證，雙方問題一起處理','週四設中途檢查點：確認是否有重大問題需要調整正式發行時間，若有會及早與貴司對齊']},
+  {n:'W7', t:'Retest／正式發行', color:'#9C3B7A', sub:'週五正式版本發行。', pts:['週一、二：最終 Retest，確認回饋問題已處理，並提交下一版新增測項需求','週三、四：Confirmation Test，雙方最終確認','週五：正式版本發行']},
+];
+
+let wi = 0;
+let detailOpen = false;
+
+function renderRail(){
+  document.getElementById('wkRail').innerHTML = weeks.map((w,i)=>`
+    <div class="wk-chip ${i===wi?'active':''}" data-i="${i}" style="background:${w.color};">
+      <div class="wk-n">${w.n}</div>
+      <div class="wk-t">${w.t}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.wk-chip').forEach(el=>{
+    el.addEventListener('click', ()=>{ wi = Number(el.dataset.i); detailOpen=false; render(); });
+  });
+}
+
+function render(){
+  const w = weeks[wi];
+  document.getElementById('wkStage').style.background = w.color;
+  document.getElementById('wkEyebrow').textContent = `週次 ${wi+1} / 7`;
+  document.getElementById('wkTitle').textContent = w.n + '　' + w.t;
+  document.getElementById('wkSub').textContent = w.sub;
+  const detail = document.getElementById('wkDetail');
+  detail.innerHTML = `<ul>${w.pts.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+  detail.classList.toggle('open', detailOpen);
+  document.getElementById('wkDown').classList.toggle('open', detailOpen);
+  document.getElementById('wkPrev').disabled = wi===0;
+  document.getElementById('wkNext').disabled = wi===weeks.length-1;
+  document.getElementById('wkProgressBar').style.width = ((wi+1)/weeks.length*100) + '%';
+  document.getElementById('wkProgressBar').style.background = w.color;
+  renderRail();
+}
+
+document.getElementById('wkDown').addEventListener('click', ()=>{ detailOpen = !detailOpen; render(); });
+document.getElementById('wkPrev').addEventListener('click', ()=>{ if(wi>0){wi--; detailOpen=false; render();} });
+document.getElementById('wkNext').addEventListener('click', ()=>{ if(wi<weeks.length-1){wi++; detailOpen=false; render();} });
+
+render();
+</script>
+</body>
+</html>

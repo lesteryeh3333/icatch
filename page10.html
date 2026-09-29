@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SDK Release 品質提升方案</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+
+<div class="overlay" id="overlay"></div>
+<div class="app">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div>RELEASE QUALITY PROGRAM</div>
+      SDK Release 品質提升方案
+    </div>
+    <ul class="nav-list">
+      <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試到週期調整</a></li>
+      <li><a class="nav-item" href="page4.html"><span class="n">3</span>新流程時間軸</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">4</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">5</span>iCatCv</a></li>
+      <li><a class="nav-item active" href="page10.html"><span class="n">6</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">7</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">8</span>收尾</a></li>
+    </ul>
+    <div class="sidebar-foot">iCatch</div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="progress">6 / 8　我們的承諾</div>
+      <div style="font-size:12px;color:var(--ink-dim);">按滑鼠右鍵開啟工具選單</div>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <canvas class="hl-canvas" id="hlCanvas"></canvas>
+      <div class="slide">
+        <div class="eyebrow">OUR COMMITMENT</div>
+        <h1>我們的承諾</h1>
+        <p class="lead">點項目查看細節。</p>
+        <div class="cp-panel" style="background:#C79A1E;">
+          <div class="cp-eyebrow">FOUR COMMITMENTS</div>
+          <h2>我們的承諾</h2>
+          <ul class="cp-list">
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">✓</div><div class="cp-item-title">版本凍結前，以貴司標準先跑完整長時間驗證</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>貴司拿到版本後做的是複驗跟驗收，大幅降低成為問題最先發現者的機率。</p></div>
+            </li>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">✓</div><div class="cp-item-title">用貴司標準重新檢視我們現有的測試項目</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>比對後會據此規劃測試深度分級標準，持續補強驗證的嚴謹度。</p></div>
+            </li>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">✓</div><div class="cp-item-title">每次的問題都會變成長期的迴歸測試項目</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>修復後不是結案就結束，會納入之後每個版本都要跑的自動化驗證。之後如果貴司這邊還有想新增的測項，麻煩在 Week7 週一～週二提出，我們會排進下一版的規劃。</p></div>
+            </li>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">✓</div><div class="cp-item-title">正式發行前有明確的關卡</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-detail"><p>會導致當機等重大（Critical）問題沒解決，版本不會進入正式發行。</p></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbtns">
+      <a class="navbtn" id="prevBtn" href="page8.html">← 上一頁</a>
+      <a class="navbtn primary" id="nextBtn" href="page12.html">下一頁 →</a>
+    </div>
+  </div>
+
+</div>
+
+<button class="tools-fab" id="toolsFab" title="工具選單">🖊️</button>
+
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" data-tool="draw">🖊️ 螢光筆</div>
+  <div class="ctx-item" data-tool="erase">🧹 橡皮擦</div>
+  <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
+  <div class="ctx-item" id="ctxFs">⛶ 全螢幕</div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>
