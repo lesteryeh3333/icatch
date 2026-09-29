@@ -35,7 +35,7 @@
 
   // TEMPORARY debug badge — remove once pen issue is diagnosed
   const debugBadge = document.createElement('div');
-  debugBadge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:#000;color:#0f0;font:11px monospace;padding:6px 10px;border-radius:6px;pointer-events:none;';
+  debugBadge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:#000;color:#0f0;font:11px monospace;padding:6px 10px;border-radius:6px;pointer-events:none;max-width:96vw;word-break:break-all;';
   document.body.appendChild(debugBadge);
   function updateDebugBadge(){
     debugBadge.textContent = 'mode=' + mode + ' canvasClass=' + canvas.className + ' cw=' + canvas.width + ' ch=' + canvas.height;
@@ -43,6 +43,11 @@
   updateDebugBadge();
   canvas.addEventListener('mousedown', ()=>{ debugBadge.textContent += ' | mousedown-fired'; });
   canvas.addEventListener('touchstart', ()=>{ debugBadge.textContent += ' | touchstart-fired'; }, {passive:true});
+
+  const debugBadge2 = document.createElement('div');
+  debugBadge2.style.cssText = 'position:fixed;left:8px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:99999;background:#000;color:#ff0;font:11px monospace;padding:6px 10px;border-radius:6px;pointer-events:none;max-width:96vw;word-break:break-all;';
+  debugBadge2.textContent = 'waiting for tool tap...';
+  document.body.appendChild(debugBadge2);
 
   function updateToolbarUI(){
     document.querySelectorAll('[data-tool]').forEach(btn=>{
@@ -140,7 +145,13 @@
   });
   document.addEventListener('click', ()=> ctxMenu.classList.remove('show'));
   ctxMenu.querySelectorAll('[data-tool]').forEach(it=>{
-    it.addEventListener('click', ()=> setMode(it.dataset.tool));
+    it.addEventListener('click', (ev)=>{
+      debugBadge2.textContent = 'CLICKED item, tool=' + it.dataset.tool + ' @' + Date.now();
+      setMode(it.dataset.tool);
+    });
+    it.addEventListener('touchend', (ev)=>{
+      debugBadge2.textContent = 'TOUCHEND item, tool=' + it.dataset.tool + ' @' + Date.now();
+    });
   });
   const ctxClear = document.getElementById('ctxClear');
   if(ctxClear) ctxClear.addEventListener('click', clearCanvas);
@@ -164,6 +175,7 @@
       ctxMenu.style.top = top + 'px';
       ctxMenu.classList.add('show');
       updateToolbarUI();
+      debugBadge2.textContent = 'FAB tapped, menu left=' + Math.round(left) + ' top=' + Math.round(top) + ' showClass=' + ctxMenu.className;
     });
   }
 
