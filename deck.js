@@ -22,7 +22,6 @@
   }
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
-
   function setMode(next){
     mode = (mode === next) ? 'none' : next;
     canvas.classList.remove('mode-draw','mode-erase');
@@ -31,7 +30,19 @@
     if(mode === 'erase') canvas.classList.add('mode-erase');
     if(mode === 'laser') document.body.classList.add('laser-on');
     updateToolbarUI();
+    updateDebugBadge();
   }
+
+  // TEMPORARY debug badge — remove once pen issue is diagnosed
+  const debugBadge = document.createElement('div');
+  debugBadge.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:99999;background:#000;color:#0f0;font:11px monospace;padding:6px 10px;border-radius:6px;pointer-events:none;';
+  document.body.appendChild(debugBadge);
+  function updateDebugBadge(){
+    debugBadge.textContent = 'mode=' + mode + ' canvasClass=' + canvas.className + ' cw=' + canvas.width + ' ch=' + canvas.height;
+  }
+  updateDebugBadge();
+  canvas.addEventListener('mousedown', ()=>{ debugBadge.textContent += ' | mousedown-fired'; });
+  canvas.addEventListener('touchstart', ()=>{ debugBadge.textContent += ' | touchstart-fired'; }, {passive:true});
 
   function updateToolbarUI(){
     document.querySelectorAll('[data-tool]').forEach(btn=>{
