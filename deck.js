@@ -20,7 +20,7 @@
     ctx.setTransform(ratio,0,0,ratio,0,0);
     ctx.drawImage(prev, 0, 0, prev.width/ratio, prev.height/ratio);
   }
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', ()=>{ resizeCanvas(); cachedRect = null; });
   resizeCanvas();
 
   function setMode(next){
@@ -39,8 +39,9 @@
     });
   }
 
+  let cachedRect = null;
   function getPos(e){
-    const rect = canvas.getBoundingClientRect();
+    const rect = cachedRect || canvas.getBoundingClientRect();
     const t = e.touches ? e.touches[0] : e;
     return { x: t.clientX - rect.left, y: t.clientY - rect.top };
   }
@@ -48,6 +49,7 @@
   function startDraw(e){
     if(mode !== 'draw' && mode !== 'erase') return;
     drawing = true;
+    cachedRect = canvas.getBoundingClientRect();
     const p = getPos(e);
     lastX = p.x; lastY = p.y;
   }
@@ -164,7 +166,13 @@
   const overlay = document.getElementById('overlay');
   const menuBtn = document.getElementById('menuBtn');
   if(menuBtn){
-    menuBtn.addEventListener('click', ()=>{ sidebar.classList.add('open'); overlay.classList.add('show'); });
+    menuBtn.addEventListener('click', ()=>{
+      if(window.innerWidth <= 760){
+        sidebar.classList.add('open'); overlay.classList.add('show');
+      } else {
+        sidebar.classList.toggle('collapsed');
+      }
+    });
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
 

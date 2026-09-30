@@ -33,6 +33,7 @@ body{
   display:flex;flex-direction:column;
   padding:24px 0 16px;
   overflow-y:auto;
+  transition:width .2s ease, padding .2s ease;
 }
 .sidebar-brand{
   padding:0 22px 20px;
@@ -187,9 +188,12 @@ body{
 }
 
 .navbtns{
+  position:fixed;left:0;right:0;bottom:0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 40px;border-top:1px solid var(--border);flex:none;background:var(--panel);
+  padding:0 20px;pointer-events:none;z-index:40;
+  bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
 }
+.navbtns .navbtn{pointer-events:auto;box-shadow:0 6px 18px rgba(0,0,0,0.18);}
 .navbtn{
   display:flex;align-items:center;justify-content:center;text-decoration:none;
   background:var(--purple-soft);color:var(--purple);
@@ -240,10 +244,11 @@ body.laser-on .stage{cursor:none;}
 .ctx-sep{height:1px;background:var(--border);margin:5px 4px;}
 
 .menu-btn{
-  display:none;align-items:center;justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   width:34px;height:34px;border-radius:8px;border:1px solid var(--border);
   background:var(--panel);cursor:pointer;flex:none;
 }
+.sidebar.collapsed{width:0;min-width:0;padding:0;overflow:hidden;border-right:none;}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:15;display:none;}
 .overlay.show{display:block;}
 
@@ -458,5 +463,5 @@ body.laser-on .stage{cursor:none;}
   .slide h1{font-size:24px;}
   .two-col{grid-template-columns:1fr;}
   .stat-row{flex-direction:column;}
-  .navbtns{padding:12px 16px;}
+  .navbtns{padding:0 12px;}
 }
