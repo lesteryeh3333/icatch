@@ -66,7 +66,7 @@ body{
 .main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;}
 .topbar{
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 40px;border-bottom:1px solid var(--border);
+  padding:12px 40px;border-bottom:1px solid var(--border);
   flex:none;background:var(--panel);
 }
 .topbar .progress{font-size:12.5px;color:var(--ink-dim);font-weight:600;}
@@ -76,13 +76,13 @@ body{
 
 .stage{flex:1;overflow-y:auto;position:relative;}
 .slide{
-  max-width:840px;margin:0 auto;padding:56px 48px 40px;
+  max-width:840px;margin:0 auto;padding:26px 48px 24px;
   min-height:100%;
   display:flex;flex-direction:column;
 }
 
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--purple);margin-bottom:10px;}
-.slide h1{font-size:32px;font-weight:800;margin:0 0 8px;letter-spacing:-0.01em;line-height:1.25;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--purple);margin-bottom:6px;}
+.slide h1{font-size:26px;font-weight:800;margin:0 0 14px;letter-spacing:-0.01em;line-height:1.25;}
 .slide .lead{font-size:14.5px;color:var(--ink-dim);margin:0 0 28px;line-height:1.6;max-width:640px;}
 
 .bullets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;}
@@ -278,8 +278,8 @@ body.laser-on .stage{cursor:none;}
 
 .wk-stage{
   flex:1;margin-left:18px;border-radius:14px;position:relative;overflow:hidden;
-  display:flex;flex-direction:column;justify-content:center;padding:40px 44px;
-  color:#fff;min-height:280px;
+  display:flex;flex-direction:column;justify-content:center;padding:26px 32px;
+  color:#fff;min-height:200px;
 }
 .wk-stage .wk-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;opacity:.85;margin-bottom:10px;}
 .wk-stage h2{font-size:30px;font-weight:800;margin:0 0 6px;letter-spacing:.01em;text-transform:uppercase;}
@@ -307,7 +307,7 @@ body.laser-on .stage{cursor:none;}
 /* Generic bold color panel (used by pages without special interaction) */
 .cp-panel{
   flex:1;border-radius:14px;position:relative;overflow:hidden;
-  padding:40px 44px;color:#fff;min-height:340px;
+  padding:26px 32px;color:#fff;min-height:240px;
   display:flex;flex-direction:column;
 }
 .cp-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;opacity:.85;margin-bottom:8px;}
@@ -399,8 +399,8 @@ body.laser-on .stage{cursor:none;}
 /* Venn diagram (page5) */
 .venn-block{
   flex:1;border-radius:14px;position:relative;overflow:hidden;
-  background:#2E5FA3;color:#fff;padding:40px 44px;
-  display:flex;flex-direction:column;min-height:360px;
+  background:#2E5FA3;color:#fff;padding:26px 32px;
+  display:flex;flex-direction:column;min-height:260px;
 }
 .venn-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;opacity:.85;margin-bottom:6px;}
 .venn-block h2{font-size:26px;font-weight:800;margin:0 0 4px;text-transform:uppercase;letter-spacing:.01em;}
