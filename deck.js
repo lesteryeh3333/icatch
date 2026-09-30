@@ -166,7 +166,7 @@
   const overlay = document.getElementById('overlay');
   const menuBtn = document.getElementById('menuBtn');
   const SIDEBAR_KEY = 'sdkdeck_sidebar_collapsed';
-  if(window.innerWidth > 760 && localStorage.getItem(SIDEBAR_KEY) === '1'){
+  if(window.innerWidth > 760 && localStorage.getItem(SIDEBAR_KEY) !== '0'){
     sidebar.classList.add('collapsed');
   }
   if(menuBtn){

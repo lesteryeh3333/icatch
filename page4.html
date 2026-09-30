@@ -12,6 +12,15 @@
 <div class="app">
 
   <nav class="sidebar" id="sidebar">
+    <script>
+    (function(){
+      try{
+        if (window.innerWidth > 760 && localStorage.getItem('sdkdeck_sidebar_collapsed') !== '0') {
+          document.getElementById('sidebar').classList.add('collapsed');
+        }
+      }catch(e){}
+    })();
+    </script>
     <div class="sidebar-brand">
       <div>RELEASE QUALITY PROGRAM</div>
       SDK Release 品質提升方案
