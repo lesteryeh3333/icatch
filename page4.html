@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SDK Release 品質提升方案</title>
 <link rel="stylesheet" href="deck.css">
+<script src="i18n.js"></script>
 </head>
 <body data-no-transition>
 
@@ -18,13 +19,14 @@
     </div>
     <ul class="nav-list">
       <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
-      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試到週期調整</a></li>
-      <li><a class="nav-item active" href="page4.html"><span class="n">3</span>新流程時間軸</a></li>
-      <li><a class="nav-item" href="page6.html"><span class="n">4</span>iCatch 測項規劃</a></li>
-      <li><a class="nav-item" href="page8.html"><span class="n">5</span>iCatCv</a></li>
-      <li><a class="nav-item" href="page10.html"><span class="n">6</span>我們的承諾</a></li>
-      <li><a class="nav-item" href="page12.html"><span class="n">7</span>客戶協作重點</a></li>
-      <li><a class="nav-item" href="page14.html"><span class="n">8</span>謝謝</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>調整方向</a></li>
+      <li><a class="nav-item active" href="page4.html"><span class="n">3</span>7 週標準流程</a></li>
+      <li><a class="nav-item" href="page5.html"><span class="n">4</span>版本節奏與彈性機制</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">5</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">6</span>iCatCv 測項規劃</a></li>
+      <li><a class="nav-item" href="page10.html"><span class="n">7</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">8</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">9</span>問題與討論</a></li>
     </ul>
     <div class="sidebar-foot">iCatch</div>
   </nav>
@@ -33,14 +35,14 @@
     <button class="menu-btn" id="menuBtn">☰</button>
     <div class="float-top">
       <span class="hint-mini">按右鍵開啟工具選單</span>
-      <span class="progress-num">3 / 8</span>
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <span class="progress-num">3 / 9</span>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
 
     <div class="stage" id="stage">
       <canvas class="hl-canvas" id="hlCanvas"></canvas>
       <div class="slide" style="max-width:1040px;">
-        <div class="eyebrow">NEW PROCESS</div>
+        <div class="eyebrow">NEW RELEASE PROCESS</div>
         <h1>7 週標準流程</h1>
 
         <div class="wk-shell">
@@ -51,13 +53,9 @@
             <div class="wk-sub" id="wkSub"></div>
             <div class="wk-detail" id="wkDetail"></div>
             <div class="wk-nav">
-              <div class="wk-nav-row">
-                <button id="wkDown" class="wk-down" title="展開細節">▼</button>
-              </div>
-              <div class="wk-nav-row">
-                <button id="wkPrev" title="上一週">‹</button>
-                <button id="wkNext" title="下一週">›</button>
-              </div>
+              <button id="wkPrev" title="上一週">‹</button>
+              <button id="wkDown" class="wk-down" title="展開細節">▼</button>
+              <button id="wkNext" title="下一週">›</button>
             </div>
           </div>
         </div>
@@ -67,7 +65,7 @@
 
     <div class="navbtns">
       <a class="navbtn" id="prevBtn" href="page2.html">←</a>
-      <a class="navbtn primary" id="nextBtn" href="page6.html">→</a>
+      <a class="navbtn primary" id="nextBtn" href="page5.html">→</a>
     </div>
   </div>
 
@@ -86,13 +84,13 @@
 <script src="deck.js"></script>
 <script>
 const weeks = [
-  {n:'W1', t:'新功能開發與除錯', color:'#C23B5B', sub:'目的：完成新功能開發，並同步開始驗證。', pts:['研發進行新功能開發與除錯','測試團隊同步跟進，逐項確認功能','開發與測試並行，提前發現問題']},
-  {n:'W2 週五', t:'Alpha 切出', color:'#C79A1E', sub:'目的：鎖定版本範圍，建立穩定的驗證基準。', pts:['週五切出 Alpha','新功能開發範圍鎖定，後續以問題修復為主','介面與功能規格固定，確保後續驗證結果與交付版本一致']},
-  {n:'W3', t:'優先驗證 DMP＋新功能', color:'#2F8F5E', sub:'目的：優先確認交付重點與高風險項目。', pts:['貴司提供的測項列為必要驗證關卡','新功能同步驗證，與貴司測項同等優先','長時間可靠度測試同步啟動']},
-  {n:'W4', t:'iCatch 自身測項', color:'#1E8A96', sub:'目的：擴大驗證範圍，確認長時間運行穩定性。', pts:['執行 iCatch 自身測項','涵蓋多種操作情境與長時間運行','保留較充足時間，讓整合過程中的連帶問題有機會浮現']},
-  {n:'W5', t:'修復・Beta 發行', color:'#2E5FA3', sub:'目的：完成最後修復，週五作為 Beta 最晚發行期限。', pts:['週一～週四：問題修復與複測','週三：中途檢查點，若有重大問題無法如期解決，提前與貴司溝通','週五：發行 Beta；若仍有未通過項目，發行時主動說明驗證涵蓋範圍']},
-  {n:'W6', t:'客戶整合驗證', color:'#5C6BC0', sub:'目的：確認實際整合情境，雙方同步處理問題。', pts:['貴司進行程式碼銜接與整合測試','iCatch 同步進行補充驗證','週四：中途檢查點，提前確認是否需要調整正式發行時間']},
-  {n:'W7', t:'Retest／正式發行', color:'#9C3B7A', sub:'目的：完成雙方最終確認，進入正式版本發行。', pts:['週一～週二：最終 Retest，確認回饋問題已處理','週三～週四：Confirmation Test，雙方最終確認','週五：正式版本發行','同步提交下一版新增測項需求']},
+  {n:'W1', t:'新功能開發與除錯', color:'#6A4C9C', sub:'目的：完成新功能開發，並同步展開功能驗證。', pts:['研發持續進行新功能開發','測試團隊每兩天定期確定基本功能','開發與測試並行，及早發現並修正問題']},
+  {n:'W2 週五', t:'Alpha 切出', color:'#8A5A2B', sub:'目的：鎖定版本範圍，建立穩定的驗證基準。', pts:['週五切出 Alpha','新功能開發範圍鎖定，後續以問題修復為主','介面與功能規格固定，確保後續驗證結果與最終交付版本一致']},
+  {n:'W3', t:'優先驗證 DMP 測項', color:'#2F8F5E', sub:'目的：優先確認交付重點與高風險項目。', pts:['DMP提供的測項列為必要驗證關卡','新功能同步驗證，與 DMP 測項並行','長時間可靠度測試同步啟動']},
+  {n:'W4', t:'iCatch 自身測項', color:'#1E8A96', sub:'目的：擴大驗證範圍，確認長時間運行穩定性。', pts:['執行 iCatch 自身測項','涵蓋多種操作情境與長時間運行','保留充足驗證時間，及早發現整合過程中的連帶問題']},
+  {n:'W5', t:'問題收斂・Beta 發行', color:'#2E5FA3', sub:'目的：完成最後修復與 DMP 測項複驗，週五作為 Beta 最晚發行期限。', pts:['週一～週四：問題修復、複測，並再次執行 DMP 測項確認','週三：中途檢查點；若有重大問題無法如期解決，提前與 DMP 溝通','週五：發行 Beta；若仍有非必要項目未完成，主動說明驗證涵蓋範圍']},
+  {n:'W6', t:'客戶整合驗證', color:'#5C6BC0', sub:'目的：確認實際整合情境，雙方同步處理問題。', pts:['DMP：進行程式碼銜接與整合測試','iCatch：同步協助問題分析與修復','週四：中途檢查點，提前確認是否需要調整正式發行時間']},
+  {n:'W7', t:'Retest／正式發行', color:'#9C3B7A', sub:'目的：完成雙方最終確認，確認版本符合正式發行條件。', pts:['週一～週二：最終 Retest，確認回饋問題已完成處理','週三～週四：Confirmation Test，雙方進行最終確認','週五：正式版本發行','同步提交下一版新增測項需求']},
 ];
 
 let wi = 0;

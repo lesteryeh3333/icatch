@@ -90,7 +90,7 @@ body{
 
 .stage{flex:1;overflow-y:auto;position:relative;}
 .slide{
-  max-width:840px;margin:0 auto;padding:64px 48px 24px;
+  max-width:840px;margin:0 auto;padding:44px 48px 24px;
   min-height:100%;
   display:flex;flex-direction:column;
 }
@@ -204,7 +204,7 @@ body{
 .navbtns{
   position:absolute;left:0;right:0;bottom:0;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 20px;pointer-events:none;z-index:40;
+  padding:0 20px;pointer-events:none;z-index:55;
   bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
 }
 .navbtns .navbtn{pointer-events:auto;box-shadow:0 6px 18px rgba(0,0,0,0.18);}
@@ -235,7 +235,8 @@ body{
 /* Laser pointer dot */
 .laser-dot{
   position:fixed;width:16px;height:16px;border-radius:50%;
-  background:radial-gradient(circle, rgba(255,60,60,0.95) 0%, rgba(255,60,60,0.5) 60%, transparent 75%);
+  background:#FF2A2A;border:2.5px solid #fff;
+  box-shadow:0 0 0 1px rgba(0,0,0,0.45), 0 0 12px 4px rgba(255,255,255,0.55);
   pointer-events:none;z-index:999;display:none;
   transform:translate(-50%,-50%);
 }
@@ -302,11 +303,12 @@ body.laser-on .stage{cursor:none;}
   max-height:0;overflow:hidden;transition:max-height .2s ease;margin-top:4px;
 }
 .wk-detail.open{max-height:400px;margin-top:18px;}
-.wk-detail ul{margin:0;padding-left:20px;}
-.wk-detail li{font-size:13.5px;line-height:1.7;margin-bottom:6px;opacity:.95;}
+.wk-detail ul{margin:0;padding-left:0;list-style:none;}
+.wk-detail li{position:relative;padding-left:14px;font-size:13.5px;line-height:1.7;margin-bottom:6px;opacity:.95;}
+/* 左側短線 anchor：3px、金色 --gold（同左右換頁鈕），只對齊首行 */
+.wk-detail li::before{content:"";position:absolute;left:0;top:.42em;width:3px;height:1.05em;border-radius:2px;background:var(--gold);}
 
-.wk-nav{position:absolute;right:18px;bottom:16px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
-.wk-nav-row{display:flex;gap:8px;}
+.wk-nav{position:absolute;right:18px;bottom:16px;display:flex;flex-direction:row;align-items:center;gap:8px;}
 .wk-nav button{
   width:34px;height:34px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.5);
   background:rgba(255,255,255,0.12);color:#fff;font-size:15px;cursor:pointer;
@@ -336,13 +338,13 @@ body.laser-on .stage{cursor:none;}
 .cp-card h3{margin:0 0 6px;font-size:15.5px;font-weight:800;}
 .cp-card p{margin:0;font-size:13px;opacity:.92;line-height:1.6;}
 .cp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;flex:1;}
-.cp-list li{
+.cp-list > li{
   border-top:1px solid rgba(255,255,255,0.22);padding:14px 2px;cursor:pointer;
 }
-.cp-list li:last-child{border-bottom:1px solid rgba(255,255,255,0.22);}
+.cp-list > li:last-child{border-bottom:1px solid rgba(255,255,255,0.22);}
 .cp-card .cp-list{margin-top:10px;}
-.cp-card .cp-list li{border-top-color:rgba(0,0,0,0.12);padding:10px 2px;}
-.cp-card .cp-list li:last-child{border-bottom-color:rgba(0,0,0,0.12);}
+.cp-card .cp-list > li{border-top-color:rgba(0,0,0,0.12);padding:10px 2px;}
+.cp-card .cp-list > li:last-child{border-bottom-color:rgba(0,0,0,0.12);}
 .cp-item-head{display:flex;align-items:center;gap:12px;}
 .cp-mark{
   width:24px;height:24px;border-radius:50%;flex:none;
@@ -364,7 +366,7 @@ body.laser-on .stage{cursor:none;}
 .cp-item-detail p{margin:0 0 8px;font-size:13px;color:#30343B;opacity:.85;line-height:1.6;}
 .cp-item-detail ul{list-style:none;margin:0;padding:0;}
 .cp-item-detail ul li{
-  font-size:13px;line-height:1.65;color:#30343B;opacity:.85;position:relative;padding-left:16px;margin-bottom:5px;cursor:default;
+  font-size:13px;line-height:1.5;color:#30343B;opacity:.85;position:relative;padding-left:16px;margin-bottom:3px;cursor:default;
 }
 .cp-item-detail ul li::before{content:"—";position:absolute;left:0;opacity:.6;color:#30343B;}
 /* Semantic accent bars — used sparingly, left edge only */
@@ -377,18 +379,51 @@ body.laser-on .stage{cursor:none;}
 .cp-stat .lab{font-size:11px;opacity:.85;margin-top:6px;}
 
 /* Cover page — reveal.js homepage style, full black */
-.cover-black{
-  flex:1;background:#0B0B0D;border-radius:14px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:60px 30px;
+/* Formal iCatch-tek style cover */
+.cover-formal{
+  flex:1;position:relative;overflow:hidden;border-radius:0;min-width:0;
+  background:linear-gradient(135deg,#0E1B2E 0%,#0A1420 60%,#081019 100%);
+  background-color:#0A1420;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:40px 44px 40px 58px;color:#F5F6F8;
 }
-.cover-mark{margin-bottom:22px;}
-.cover-title{
-  color:#fff;font-size:32px;font-weight:800;letter-spacing:.03em;
-  text-transform:uppercase;line-height:1.3;margin:0 0 16px;
+.cover-formal-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(115deg, rgba(90,160,220,0.05) 0 2px, transparent 2px 60px),
+    repeating-linear-gradient(25deg, rgba(90,160,220,0.04) 0 2px, transparent 2px 80px),
+    radial-gradient(circle at 78% 30%, rgba(60,140,220,0.18), transparent 40%),
+    radial-gradient(circle at 92% 70%, rgba(60,140,220,0.12), transparent 35%);
+  clip-path:polygon(38% 0, 100% 0, 100% 100%, 20% 100%);
 }
-.cover-tagline{color:#B9B9C2;font-size:14.5px;max-width:440px;line-height:1.7;margin:0 0 28px;}
-.cover-credit{color:#6B6B76;font-size:12.5px;font-weight:600;letter-spacing:.02em;}
+.cover-formal-top{position:absolute;top:66px;right:44px;z-index:2;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.cover-logo-img{display:block;height:26px;width:auto;opacity:.92;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));}
+.cover-logo-line{width:52px;height:2px;background:var(--gold);border-radius:1px;}
+.cover-logo-mark{
+  display:inline-block;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle,#F2543D 0%,#C4271A 70%);
+  margin-right:8px;vertical-align:middle;
+}
+.cover-logo-text{font-size:19px;font-weight:800;letter-spacing:.01em;display:flex;align-items:center;gap:2px;}
+.cover-logo-text .dot-accent{color:#F2543D;font-size:10px;margin:0 1px;}
+.cover-logo-sub{font-size:11.5px;color:#9CA6B4;margin-top:4px;letter-spacing:.04em;}
+.cover-formal-mid{position:relative;z-index:1;min-width:0;}
+.cover-formal-title{font-size:34px;font-weight:800;line-height:1.3;margin:0 0 14px;letter-spacing:.01em;max-width:100%;overflow-wrap:break-word;word-break:break-word;}
+.cover-formal-title .accent-line{color:var(--gold);}
+.cover-formal-sub{font-size:14.5px;color:#DCE1E6;max-width:420px;line-height:1.7;margin:0;}
+.cover-formal-qa{font-size:14px;font-weight:800;letter-spacing:.3em;color:var(--gold);margin:0 0 14px;}
+.cover-formal-closing{font-size:14px;color:#8C97A3;letter-spacing:.08em;margin-top:26px;}
+.cover-formal-speaker{font-size:13.5px;font-weight:600;color:#E8ECEF;margin:14px 0 0;}
+.cover-formal-speaker b{font-weight:800;}
+.cover-formal-bottom{position:absolute;right:44px;bottom:72px;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right;}
+.cover-formal-credit{font-size:13.5px;font-weight:600;color:#E8ECEF;}
+.cover-formal-credit b{font-weight:800;}
+.cover-formal-date{font-size:12.5px;color:#8C97A3;font-style:italic;margin-top:2px;}
+.cover-formal-footer{position:relative;z-index:1;font-size:10.5px;color:#7D8998;letter-spacing:.02em;margin-bottom:30px;}
+@media (max-width:640px){
+  .cover-formal{padding:28px 24px;}
+  .cover-formal-title{font-size:24px;}
+}
 
 /* Expand-from-center page transition */
 .page-block-enter{
@@ -407,6 +442,8 @@ body.laser-on .stage{cursor:none;}
   .wk-stage h2{font-size:22px;}
   .cover-title{font-size:24px;}
   .cover-tagline{font-size:13px;}
+  .cover-formal-title{font-size:22px;}
+  .cover-formal-sub{font-size:13px;}
 }
 
 /* Venn diagram (page5) */
@@ -474,4 +511,176 @@ body.laser-on .stage{cursor:none;}
   .two-col{grid-template-columns:1fr;}
   .stat-row{flex-direction:column;}
   .navbtns{padding:0 12px;}
+}
+
+/* ===== i18n：語言切換鈕 + 英文版專屬微調（只套 :lang(en)，中文畫面維持原樣）===== */
+html.i18n-pending body{visibility:hidden;}
+.lang-switch{
+  display:flex;align-items:center;flex:none;
+  border:1px solid var(--border);border-radius:999px;overflow:hidden;background:#fff;
+}
+.lang-switch button{
+  border:none;background:transparent;cursor:pointer;
+  font:inherit;font-size:11px;font-weight:800;letter-spacing:.04em;
+  padding:3px 9px;color:var(--ink-dim);
+}
+.lang-switch button.on{background:var(--gold);color:#2B2410;}
+
+/* page2：英文較長 → 放寬 sub 行寬、縮小標題與行距，避免頁面被撐高 */
+.cp-panel .cp-sub{max-width:none;font-size:13.5px;line-height:1.55;margin-bottom:14px;}
+.cp-panel{padding:22px 28px;}
+.cp-card p{font-size:13px;line-height:1.5;}
+
+/* page4：rail 標題字級縮小，英文較長仍留在 chip 內 */
+.wk-chip .wk-t{font-size:10.5px;line-height:1.2;text-wrap:balance;}
+
+/* page6：英文文氏圖——圓稍加大，文字限制在各自的非交集區內換行；其餘間距收緊避免展開時要捲動 */
+.venn-block{padding:14px 28px;}
+.venn-stage{min-height:244px;}
+.venn-circle{width:240px;height:240px;font-size:14px;line-height:1.25;white-space:nowrap;}
+.venn-circle.a{left:calc(50% - 200px);padding-left:22px;padding-right:92px;text-align:left;}
+.venn-circle.b{left:calc(50% - 40px);padding-right:22px;padding-left:92px;text-align:right;}
+.venn-detail.open{margin-top:4px;padding:8px 14px;}
+.venn-detail li{line-height:1.4;margin-bottom:2px;}
+.cp-card .cp-item-detail{margin-left:30px;}
+.cp-card .cp-list > li.open .cp-item-detail{padding:10px 12px;}
+.cp-card .cp-item-detail ul{padding-left:0 !important;}
+.cp-card .cp-item-detail ul li{font-size:12.5px;line-height:1.4;margin-bottom:2px;}
+.cp-card .cp-list > li{padding:8px 2px;}
+
+/* page2 英文：展開態也不需捲動（只套有 .cp-grid 的面板，即 page2） */
+.slide:has(.cp-grid){padding-top:56px;padding-bottom:16px;}
+.slide:has(.cp-grid) h1{margin-bottom:10px;}
+.cp-panel:has(.cp-grid){padding:18px 24px;}
+.cp-panel:has(.cp-grid) h2{font-size:22px;margin-bottom:6px;}
+.cp-panel:has(.cp-grid) .cp-sub{font-size:13px;line-height:1.45;margin-bottom:12px;}
+.cp-panel:has(.cp-grid) .cp-card{padding:14px 16px;}
+.cp-panel:has(.cp-grid) .cp-card .cp-item-detail{margin-left:0;}
+.cp-panel:has(.cp-grid) .cp-card .cp-list > li.open .cp-item-detail{padding:8px 10px;}
+.cp-panel:has(.cp-grid) .cp-card .cp-item-detail ul li{padding-left:14px;}
+
+/* 手機寬度：右上浮動列（含中／EN 鈕）與左上選單鈕不遮到標題；工具鈕移到底部中間（左右是換頁鈕，不蓋住各頁右下的 ▼ 展開鈕） */
+@media (max-width:760px){
+  .slide, .slide:has(.cp-grid){padding-top:68px;padding-bottom:84px;}
+  .cover-formal{padding-top:104px;}
+  .cover-formal-footer{margin-bottom:84px;}
+  .tools-fab{top:auto;right:auto;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 16px);}
+}
+
+/* 英文標題用正常大小寫（原版 h2 為 uppercase，會把 iCatch 變成 ICATCH）；頁面上方小標籤維持大寫 */
+:is(:lang(en),:lang(ja)) .wk-stage h2,
+:is(:lang(en),:lang(ja)) .cp-panel h2,
+.venn-block h2{text-transform:none;}
+
+/* ===== 日文版（:lang(ja)）===== */
+/* 字型：優先日文字形，避免漢字用繁中字形顯示 */
+:lang(ja) body,
+:lang(ja) .slide,
+:lang(ja) .cover-formal{
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic UI","Yu Gothic","Meiryo","Noto Sans JP",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+}
+:lang(ja) .slide,:lang(ja) .cp-item-detail,:lang(ja) .wk-detail{line-break:strict;word-break:normal;overflow-wrap:break-word;}
+/* 標題不強制大寫（避免 iCatch → ICATCH），與英文版一致 */
+:lang(ja) .wk-stage h2,
+:lang(ja) .cp-panel h2,
+:lang(ja) .venn-block h2{text-transform:none;}
+/* 日文：週次標籤加寬並均衡換行，避免把片假名詞切在中間；標題也均衡換行 */
+:lang(ja) .wk-rail{width:116px;}
+:lang(ja) .wk-chip .wk-t{font-size:10.5px;text-wrap:balance;}
+.slide h1,
+.cp-panel h2,
+.wk-stage h2,
+.venn-block h2,
+.cp-item-title{text-wrap:balance;}
+/* 日文：以詞組為單位換行（Chrome 119+；不支援的瀏覽器自動退回一般換行） */
+:lang(ja) .wk-chip .wk-t,
+:lang(ja) .slide h1,
+:lang(ja) .cp-panel h2,
+:lang(ja) .cp-item-title,
+:lang(ja) .cp-sub,
+:lang(ja) .wk-sub,
+:lang(ja) .cp-item-detail,
+:lang(ja) .wk-detail{word-break:auto-phrase;}
+
+/* 提示文字獨立成一顆膠囊，位於右上語言鈕左側（位置由 deck.js 依浮動列即時定位）；顯示約 5 秒後淡出 */
+.hint-float{
+  position:fixed;z-index:45;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(6px);
+  padding:6px 12px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,0.10);
+  font-size:10px;color:var(--ink-dim);white-space:nowrap;
+  opacity:1;transition:opacity .45s ease,visibility .45s;
+}
+.hint-float.hide{opacity:0;visibility:hidden;pointer-events:none;}
+@media (max-width:640px){
+  .hint-float{display:none;}
+}
+
+/* 所有語言的大標題都用正常大小寫（原版 h2 為 uppercase，會把 iCatch 變成 ICATCH）；頁面上方小標籤（eyebrow）維持大寫 */
+.wk-stage h2,
+.cp-panel h2,
+.venn-block h2{text-transform:none;}
+
+/* page6 英文／日文：說明文字與圓之間的留白收緊，讓放大後的圓在展開細節時仍不需捲動 */
+.venn-block .venn-sub{margin-bottom:0;}
+.venn-stage{min-height:236px;}
+
+/* page2 / page4 三種語言共用日文版的排法 */
+.cp-panel:has(.cp-grid) .cp-sub{max-width:none;}
+@media (min-width:761px){
+  .wk-rail{width:116px;}
+}
+
+/* page2：內容區加寬（與 page4 同為 1040px），說明文字每句不換行；三種語言共用 */
+.slide:has(.cp-grid){max-width:1040px;}
+/* page2：說明文字字級再縮一點（三語共用），讓最長的英文句在常見字型下仍留有餘裕、不換行 */
+.cp-panel:has(.cp-grid) .cp-sub{font-size:12.5px;}
+
+/* page6：展開後細節框右側讓出 ▼ 按鈕的位置，避免框蓋到按鈕（按鈕約 34px 寬，距右 18px）*/
+.venn-detail.open{margin-right:58px;}
+
+/* 左右換頁鈕同色（原版 ← 為淡米色、→ 為金色），兩顆都用金色 */
+.navbtn,
+.navbtn.primary{background:var(--gold);color:#2B2410;}
+
+/* 頁腳推到封面容器底部（Q&A 頁的 .cover-formal 內只有頁腳在文字流中，原本會卡在頂部；封面不受影響） */
+.cover-formal-footer{margin-top:auto;}
+
+/* page6：展開框與圓之間拉開距離；清單字級略縮，讓最長的日文條目維持一行，框不再往上頂到圓 */
+.venn-detail.open{margin-top:22px;}
+.venn-detail li{font-size:13px;}
+
+/* page2 卡片內的下拉項目（為什麼要多一週）：圓圈與標題用該頁主色，白底卡片上才看得出是可點的項目 */
+.cp-card .cp-mark{background:var(--tint-accent, #8E2033);color:#fff;}
+.cp-card .cp-item-title{color:var(--tint-accent, #8E2033);}
+.cp-card .cp-chevron{color:var(--tint-accent, #8E2033);opacity:1;}
+
+/* 下拉框立體感：顏色取自所在色塊（--tint / --tint-accent）的同色系深淺。
+   色條＝比色塊更深的同色；底色＝淡色到稍深的漸層；陰影＋上緣高光營造浮起的層次。 */
+.cp-list li.open .cp-item-detail,
+.venn-detail.open{
+  background:linear-gradient(180deg,
+    var(--tint, #F7F4EA) 0%,
+    color-mix(in srgb, var(--tint, #F7F4EA) 86%, var(--tint-accent, #D4AD4A)) 100%);
+  border-left:5px solid color-mix(in srgb, var(--tint-accent, #D4AD4A) 72%, #000);
+  border-radius:8px;
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.22),
+    0 2px 4px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    inset 0 -1px 0 color-mix(in srgb, var(--tint-accent, #D4AD4A) 30%, transparent);
+}
+
+/* 下拉框：深色色條統一放到右側；底色漸層由左上（淡）往右下（深），陰影略往右下，光源方向一致 */
+.cp-list li.open .cp-item-detail,
+.venn-detail.open{
+  border-left:0;
+  border-right:5px solid color-mix(in srgb, var(--tint-accent, #D4AD4A) 72%, #000);
+  background:linear-gradient(150deg,
+    var(--tint, #F7F4EA) 0%,
+    color-mix(in srgb, var(--tint, #F7F4EA) 84%, var(--tint-accent, #D4AD4A)) 100%);
+  box-shadow:
+    4px 8px 18px rgba(0,0,0,0.22),
+    1px 2px 4px rgba(0,0,0,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    inset -1px 0 0 color-mix(in srgb, var(--tint-accent, #D4AD4A) 30%, transparent);
 }

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SDK Release 品質提升方案</title>
 <link rel="stylesheet" href="deck.css">
+<script src="i18n.js"></script>
 </head>
 <body>
 
@@ -18,13 +19,14 @@
     </div>
     <ul class="nav-list">
       <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
-      <li><a class="nav-item" href="page2.html"><span class="n">2</span>從功能測試到週期調整</a></li>
-      <li><a class="nav-item" href="page4.html"><span class="n">3</span>新流程時間軸</a></li>
-      <li><a class="nav-item" href="page6.html"><span class="n">4</span>iCatch 測項規劃</a></li>
-      <li><a class="nav-item" href="page8.html"><span class="n">5</span>iCatCv</a></li>
-      <li><a class="nav-item active" href="page10.html"><span class="n">6</span>我們的承諾</a></li>
-      <li><a class="nav-item" href="page12.html"><span class="n">7</span>客戶協作重點</a></li>
-      <li><a class="nav-item" href="page14.html"><span class="n">8</span>謝謝</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>調整方向</a></li>
+      <li><a class="nav-item" href="page4.html"><span class="n">3</span>7 週標準流程</a></li>
+      <li><a class="nav-item" href="page5.html"><span class="n">4</span>版本節奏與彈性機制</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">5</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">6</span>iCatCv 測項規劃</a></li>
+      <li><a class="nav-item active" href="page10.html"><span class="n">7</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">8</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">9</span>問題與討論</a></li>
     </ul>
     <div class="sidebar-foot">iCatch</div>
   </nav>
@@ -33,8 +35,8 @@
     <button class="menu-btn" id="menuBtn">☰</button>
     <div class="float-top">
       <span class="hint-mini">按右鍵開啟工具選單</span>
-      <span class="progress-num">6 / 8</span>
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+      <span class="progress-num">7 / 9</span>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
 
     <div class="stage" id="stage">
@@ -47,31 +49,31 @@
           <h2>我們的承諾</h2>
           <ul class="cp-list">
             <li>
-              <div class="cp-item-head"><div class="cp-mark">①</div><div class="cp-item-title">版本凍結前，先完成長時間驗證</div><div class="cp-chevron">›</div></div>
+              <div class="cp-item-head"><div class="cp-mark">1</div><div class="cp-item-title">Alpha 切出後，立即啟動長時間驗證</div><div class="cp-chevron">›</div></div>
               <div class="cp-item-detail">
-                <p style="opacity:.85;margin-bottom:6px;">以貴司標準提前驗證，降低交付後才發現問題的機率。</p>
-                <ul style="margin:0;padding-left:16px;"><li>版本凍結前完成完整長時間驗證</li><li>貴司收到版本後，以複驗與驗收為主</li></ul>
+                <p style="opacity:.85;margin-bottom:6px;">以 DMP 實際使用情境提前驗證，降低版本交付後才發現問題的機率。</p>
+                <ul style="margin:0;padding-left:16px;"><li>Alpha 切出後即啟動長時間穩定性驗證</li><li>Beta 發行前完成必要驗證與複測</li></ul>
               </div>
             </li>
-            <li class="accent-teal">
-              <div class="cp-item-head"><div class="cp-mark">②</div><div class="cp-item-title">以貴司標準重新檢視測項</div><div class="cp-chevron">›</div></div>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">2</div><div class="cp-item-title">以 DMP 標準重新檢視測項</div><div class="cp-chevron">›</div></div>
               <div class="cp-item-detail">
                 <p style="opacity:.85;margin-bottom:6px;">從測試覆蓋延伸到測試深度。</p>
-                <ul style="margin:0;padding-left:16px;"><li>比對貴司測項與 iCatch 現有測項</li><li>依比對結果建立測試深度分級</li><li>持續補強驗證的完整性與嚴謹度</li></ul>
+                <ul style="margin:0;padding-left:16px;"><li>比對 DMP 測項與 iCatch 現有測項</li><li>依比對結果檢視測試深度與驗證範圍</li><li>持續補強驗證的完整性與嚴謹度</li></ul>
               </div>
             </li>
-            <li class="accent-blue">
-              <div class="cp-item-head"><div class="cp-mark">③</div><div class="cp-item-title">問題轉化為長期迴歸測試</div><div class="cp-chevron">›</div></div>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">3</div><div class="cp-item-title">問題轉化為長期迴歸測試</div><div class="cp-chevron">›</div></div>
               <div class="cp-item-detail">
                 <p style="opacity:.85;margin-bottom:6px;">修復不是終點，問題會沉澱為後續版本的驗證能力。</p>
-                <ul style="margin:0;padding-left:16px;"><li>每次問題修復後納入迴歸測試</li><li>持續累積自動化驗證項目</li><li>新增測項於 Week 7 提出，納入下一版規劃</li></ul>
+                <ul style="margin:0;padding-left:16px;"><li>每次問題修復後，納入後續版本的迴歸測試</li><li>持續累積自動化驗證項目</li><li>降低同類問題再次發生的機會</li></ul>
               </div>
             </li>
-            <li class="accent-slate">
-              <div class="cp-item-head"><div class="cp-mark">④</div><div class="cp-item-title">正式發行前，設置明確品質關卡</div><div class="cp-chevron">›</div></div>
+            <li>
+              <div class="cp-item-head"><div class="cp-mark">4</div><div class="cp-item-title">正式發行前，設置明確品質關卡</div><div class="cp-chevron">›</div></div>
               <div class="cp-item-detail">
-                <p style="opacity:.85;margin-bottom:6px;">重大問題未解決，不進入正式發行。</p>
-                <ul style="margin:0;padding-left:16px;"><li>正式發行前執行最終確認</li><li>若仍有 Critical 問題未解決，會提前與貴司溝通，討論延後一週處理，不會帶著已知重大問題強行發行</li></ul>
+                <p style="opacity:.85;margin-bottom:6px;">重大問題的處理與發行決定，都會事先與 DMP 溝通。</p>
+                <ul style="margin:0;padding-left:16px;"><li>正式發行前執行最終確認</li><li>若仍有 Critical 問題未解決，提前與 DMP 溝通，並依雙方共識調整正式發行時間，或如期發行並說明已知風險</li></ul>
               </div>
             </li>
           </ul>

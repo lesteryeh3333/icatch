@@ -94,10 +94,21 @@
   const laserDot = document.createElement('div');
   laserDot.className = 'laser-dot';
   document.body.appendChild(laserDot);
+  function placeLaser(x, y){
+    laserDot.style.left = x + 'px';
+    laserDot.style.top = y + 'px';
+  }
+  try{
+    const lp = JSON.parse(sessionStorage.getItem('deckLaserPos') || 'null');
+    if(lp) placeLaser(lp.x, lp.y);
+  }catch(_){}
   document.addEventListener('mousemove', e=>{
-    laserDot.style.left = e.clientX + 'px';
-    laserDot.style.top = e.clientY + 'px';
+    placeLaser(e.clientX, e.clientY);
+    try{ sessionStorage.setItem('deckLaserPos', JSON.stringify({x:e.clientX, y:e.clientY})); }catch(_){}
   });
+
+  // 每頁載入一律預設雷射筆（螢光筆／橡皮擦不跨頁保留）
+  setMode('laser');
 
   // Right-click custom context menu (only place [data-tool] listeners are bound —
   // binding it a second time elsewhere double-fires setMode's toggle and cancels itself out)
@@ -137,7 +148,7 @@
   }
 
   // Bullet expand/collapse (and week-block / cp-list items) — accordion within siblings
-  document.querySelectorAll('.bullet, .week-block, .cp-list li').forEach(b=>{
+  document.querySelectorAll('.bullet, .week-block, .cp-list > li').forEach(b=>{
     b.addEventListener('click', (ev)=>{
       if(mode === 'draw' || mode === 'erase') return; // avoid accidental toggle while drawing
       const willOpen = !b.classList.contains('open');
@@ -161,6 +172,36 @@
     });
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }
+
+  // 提示文字（按右鍵開啟工具選單）：從右上浮動列獨立出來，放在語言鈕左側；
+  // 每頁載入顯示約 5 秒後淡出；使用者切換語言時重新顯示 5 秒。語言鈕與頁碼維持在浮動列內不動。
+  const pill = document.querySelector('.float-top');
+  const hintEl = document.querySelector('.float-top .hint-mini');
+  let hintTimer = null;
+  function placeHint(){
+    if(!hintEl || !pill) return;
+    const p = pill.getBoundingClientRect();
+    const h = hintEl.getBoundingClientRect();
+    hintEl.style.top = Math.round(p.top + (p.height - h.height) / 2) + 'px';
+    hintEl.style.right = Math.round(document.documentElement.clientWidth - p.left + 10) + 'px';
+  }
+  function showHint(){
+    if(!hintEl) return;
+    placeHint();
+    hintEl.classList.remove('hide');
+    clearTimeout(hintTimer);
+    hintTimer = setTimeout(()=>hintEl.classList.add('hide'), 2000);
+  }
+  if(hintEl){
+    hintEl.classList.add('hint-float');
+    document.body.appendChild(hintEl);            // 移出 .float-top，成為獨立元件
+    window.addEventListener('resize', placeHint);
+    // 浮動列寬度會變（例如語言鈕稍後才建立、換語言），跟著重新定位，避免與語言鈕重疊
+    if(typeof ResizeObserver === 'function' && pill) new ResizeObserver(placeHint).observe(pill);
+    window.addEventListener('load', placeHint);
+  }
+  window.deckShowHint = showHint;
+  showHint();
 
   // Expand-from-center transition on the page's color block (not the whole page)
   // Skipped entirely on pages that opt out (their own internal animation takes over)
