@@ -161,16 +161,21 @@
     });
   });
 
-  // Mobile sidebar
+  // Sidebar (mobile slide-in overlay + desktop collapse, persisted across pages)
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   const menuBtn = document.getElementById('menuBtn');
+  const SIDEBAR_KEY = 'sdkdeck_sidebar_collapsed';
+  if(window.innerWidth > 760 && localStorage.getItem(SIDEBAR_KEY) === '1'){
+    sidebar.classList.add('collapsed');
+  }
   if(menuBtn){
     menuBtn.addEventListener('click', ()=>{
       if(window.innerWidth <= 760){
         sidebar.classList.add('open'); overlay.classList.add('show');
       } else {
         sidebar.classList.toggle('collapsed');
+        localStorage.setItem(SIDEBAR_KEY, sidebar.classList.contains('collapsed') ? '1' : '0');
       }
     });
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });

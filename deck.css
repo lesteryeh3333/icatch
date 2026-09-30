@@ -63,7 +63,7 @@ body{
 .sidebar-foot{padding:14px 22px 4px;font-size:10.5px;color:#9C8A5E;border-top:1px solid rgba(255,255,255,0.12);}
 
 /* Main */
-.main{flex:1;display:flex;flex-direction:column;min-width:0;}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;}
 .topbar{
   display:flex;align-items:center;justify-content:space-between;
   padding:16px 40px;border-bottom:1px solid var(--border);
@@ -188,7 +188,7 @@ body{
 }
 
 .navbtns{
-  position:fixed;left:0;right:0;bottom:0;
+  position:absolute;left:0;right:0;bottom:0;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 20px;pointer-events:none;z-index:40;
   bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
