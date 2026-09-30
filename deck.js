@@ -99,15 +99,6 @@
     laserDot.style.top = e.clientY + 'px';
   });
 
-  // Fullscreen
-  function toggleFullscreen(){
-    if(!document.fullscreenElement){
-      document.documentElement.requestFullscreen().catch(()=>{});
-    } else {
-      document.exitFullscreen().catch(()=>{});
-    }
-  }
-
   // Right-click custom context menu (only place [data-tool] listeners are bound —
   // binding it a second time elsewhere double-fires setMode's toggle and cancels itself out)
   const ctxMenu = document.getElementById('ctxMenu');
@@ -124,8 +115,6 @@
   });
   const ctxClear = document.getElementById('ctxClear');
   if(ctxClear) ctxClear.addEventListener('click', clearCanvas);
-  const ctxFs = document.getElementById('ctxFs');
-  if(ctxFs) ctxFs.addEventListener('click', toggleFullscreen);
 
   // Mobile fallback: floating button opens same tool menu
   const fab = document.getElementById('toolsFab');
@@ -161,22 +150,14 @@
     });
   });
 
-  // Sidebar (mobile slide-in overlay + desktop collapse, persisted across pages)
+  // Sidebar — universal floating overlay (mobile + desktop), toggled via menu button
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
   const menuBtn = document.getElementById('menuBtn');
-  const SIDEBAR_KEY = 'sdkdeck_sidebar_collapsed';
-  if(window.innerWidth > 760 && localStorage.getItem(SIDEBAR_KEY) !== '0'){
-    sidebar.classList.add('collapsed');
-  }
   if(menuBtn){
     menuBtn.addEventListener('click', ()=>{
-      if(window.innerWidth <= 760){
-        sidebar.classList.add('open'); overlay.classList.add('show');
-      } else {
-        sidebar.classList.toggle('collapsed');
-        localStorage.setItem(SIDEBAR_KEY, sidebar.classList.contains('collapsed') ? '1' : '0');
-      }
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('show');
     });
     overlay.addEventListener('click', ()=>{ sidebar.classList.remove('open'); overlay.classList.remove('show'); });
   }

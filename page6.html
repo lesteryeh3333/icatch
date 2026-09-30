@@ -12,15 +12,6 @@
 <div class="app">
 
   <nav class="sidebar" id="sidebar">
-    <script>
-    (function(){
-      try{
-        if (window.innerWidth > 760 && localStorage.getItem('sdkdeck_sidebar_collapsed') !== '0') {
-          document.getElementById('sidebar').classList.add('collapsed');
-        }
-      }catch(e){}
-    })();
-    </script>
     <div class="sidebar-brand">
       <div>RELEASE QUALITY PROGRAM</div>
       SDK Release 品質提升方案
@@ -39,10 +30,10 @@
   </nav>
 
   <div class="main">
-    <div class="topbar">
-      <button class="menu-btn" id="menuBtn">☰</button>
-      <div class="progress">4 / 8　iCatch 測項規劃</div>
-      <div style="font-size:12px;color:var(--ink-dim);">按滑鼠右鍵開啟工具選單</div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="float-top">
+      <span class="hint-mini">按右鍵開啟工具選單</span>
+      <span class="progress-num">4 / 8</span>
       <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
 
@@ -95,7 +86,6 @@
   <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
   <div class="ctx-sep"></div>
   <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
-  <div class="ctx-item" id="ctxFs">⛶ 全螢幕</div>
 </div>
 
 <script src="deck.js"></script>
