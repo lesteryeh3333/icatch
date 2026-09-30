@@ -145,10 +145,16 @@
     });
   }
 
-  // Bullet expand/collapse (and week-block / cp-list items)
+  // Bullet expand/collapse (and week-block / cp-list items) — accordion within siblings
   document.querySelectorAll('.bullet, .week-block, .cp-list li').forEach(b=>{
     b.addEventListener('click', (ev)=>{
       if(mode === 'draw' || mode === 'erase') return; // avoid accidental toggle while drawing
+      const willOpen = !b.classList.contains('open');
+      if(willOpen && b.parentElement){
+        Array.from(b.parentElement.children).forEach(sib=>{
+          if(sib !== b) sib.classList.remove('open');
+        });
+      }
       b.classList.toggle('open');
     });
   });
