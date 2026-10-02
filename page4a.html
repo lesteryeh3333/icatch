@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SDK Release 品質提升方案</title>
+<link rel="stylesheet" href="deck.css">
+<script src="i18n.js"></script>
+<style>
+.tc-wrap{overflow-x:auto;overflow-y:hidden;}
+:is(:lang(en),:lang(ja)) .tc-bar{font-size:12px;line-height:1.15;}
+:is(:lang(en),:lang(ja)) .tc-ms{font-size:12.5px;}
+.tc{position:relative;min-width:640px;display:grid;grid-template-columns:84px repeat(6,minmax(0,1fr));grid-auto-rows:44px;row-gap:6px;margin-top:6px;}
+.tc-cols{position:absolute;left:84px;right:0;top:0;bottom:0;display:grid;grid-template-columns:repeat(6,1fr);pointer-events:none;}
+.tc-cols i{border-left:1px dashed var(--border);}
+.tc-cols i:last-child{border-right:1px dashed var(--border);}
+.tc-wk{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink-dim);}
+.tc-lane{grid-column:1;display:flex;align-items:center;justify-content:center;border-radius:8px;color:#fff;font-weight:800;font-size:14px;letter-spacing:.04em;margin-right:8px;}
+.tc-lane.ic{background:var(--purple-deep);}
+.tc-lane.dmp{background:#6B7A90;}
+.tc-bar{position:relative;z-index:1;display:flex;align-items:center;padding:0 12px;margin:3px 4px;border-radius:8px;color:#fff;font-size:13px;font-weight:600;line-height:1.2;box-shadow:0 2px 6px rgba(32,42,58,.12);}
+.tc-bar.rd{background:#8A94A6;}
+.tc-bar.qa{background:#4F5F7A;}
+.tc-bar.fx{background:#8A94A6;}
+.tc-bar.one{gap:10px;padding:0 14px;}
+.tc-bar.one i{font-style:normal;opacity:.7;}
+.tc-clash{position:relative;z-index:auto;margin:0 4px;border:2px dashed #C0504D;border-radius:10px;pointer-events:none;}
+.tc-clash b{position:absolute;z-index:3;right:10px;top:-11px;background:#C0504D;color:#fff;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:.02em;}
+.tc-bar.dm{background:#6B7A90;}
+.tc-ms{position:relative;z-index:1;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink);}
+.tc-ms.r{justify-content:flex-end;padding-right:9%;}
+.tc-ms.l{justify-content:flex-start;padding-left:3%;}
+.tc-ms .sym{flex:none;width:16px;height:16px;}
+.tc-ms.beta .sym{background:var(--gold);transform:rotate(45deg);border-radius:2px;width:14px;height:14px;}
+.tc-ms.rel .sym{background:var(--green);border-radius:50%;}
+.tc-note{font-size:12px;color:var(--ink-dim);margin-top:12px;line-height:1.6;}
+</style>
+</head>
+<body data-no-transition>
+
+<div class="overlay" id="overlay"></div>
+<div class="app">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div>RELEASE QUALITY PROGRAM</div>
+      SDK Release 品質提升方案
+    </div>
+    <ul class="nav-list">
+      <li><a class="nav-item" href="index.html"><span class="n">1</span>封面</a></li>
+      <li><a class="nav-item" href="page2.html"><span class="n">2</span>版本發行與測項改善計畫</a></li>
+      <li><a class="nav-item active" href="page4a.html"><span class="n">3</span>現行 6 週標準流程</a></li>
+      <li><a class="nav-item" href="page4b.html"><span class="n">4</span>新 7 週標準流程時間軸</a></li>
+      <li><a class="nav-item" href="page5.html"><span class="n">5</span>版本節奏與彈性機制</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">6</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">7</span>iCatCv 測項規劃</a></li>
+      <li><a class="nav-item" href="page10.html"><span class="n">8</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">9</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">10</span>問題與討論</a></li>
+    </ul>
+    <div class="sidebar-foot">iCatch</div>
+  </nav>
+
+  <div class="main">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="float-top">
+      <span class="hint-mini">按右鍵開啟工具選單</span>
+      <span class="progress-num">3 / 10</span>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    </div>
+
+    <div class="stage" id="stage">
+      <canvas class="hl-canvas" id="hlCanvas"></canvas>
+      <div class="slide" style="max-width:1040px;">
+        <div class="eyebrow">CURRENT RELEASE PROCESS</div>
+        <h1>現行 6 週標準流程</h1>
+        <p class="lead" style="margin-bottom:18px;">Branch 切出後，QA 測試與 RD 新增功能並行；W3 週五出 Beta，W4 由 DMP merge code，W6 release。其中 RD 修復與 QA 測試同時進行，是現行流程的問題所在。</p>
+
+        <div class="tc-wrap">
+          <div class="tc">
+            <div class="tc-cols"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+            <div class="tc-wk" style="grid-column:1;"></div>
+            <div class="tc-wk" style="grid-column:2;">W1</div>
+            <div class="tc-wk" style="grid-column:3;">W2</div>
+            <div class="tc-wk" style="grid-column:4;">W3</div>
+            <div class="tc-wk" style="grid-column:5;">W4</div>
+            <div class="tc-wk" style="grid-column:6;">W5</div>
+            <div class="tc-wk" style="grid-column:7;">W6</div>
+
+            <div class="tc-lane ic" style="grid-row:2 / span 2;">iCatch</div>
+            <div class="tc-bar qa one" style="grid-row:2;grid-column:2 / span 6;margin-right:calc(1.5% + 8px);"><span>新功能驗證</span><i>+</i><span>RD 問題修復</span><i>+</i><span>QA 持續測試</span></div>
+            <div class="tc-clash" style="grid-row:2;grid-column:2 / span 6;margin-right:calc(1.5% + 8px);"><b>修復與測試同時進行</b></div>
+            <div class="tc-ms beta l" style="grid-row:3;grid-column:2 / span 2;"><span class="sym"></span><span>Branch 切出（W1 週一）</span></div>
+            <div class="tc-ms beta r" style="grid-row:3;grid-column:3 / span 2;"><span>Beta 版本（W3 週五）</span><span class="sym"></span></div>
+            <div class="tc-ms rel r" style="grid-row:3;grid-column:7;"><span>Release</span><span class="sym"></span></div>
+
+            <div class="tc-lane dmp" style="grid-row:4;">DMP</div>
+            <div class="tc-bar dm" style="grid-row:4;grid-column:5;">Merge code</div>
+          </div>
+        </div>
+
+        <div class="tc-note">圖面為現行流程示意；RD 修復與 QA 測試的重疊範圍為 W1～W5，週內日期僅 W1 週一（Branch 切出）與 W3 週五（Beta）有明確指定。</div>
+      </div>
+    </div>
+
+    <div class="navbtns">
+      <a class="navbtn" id="prevBtn" href="page2.html">←</a>
+      <a class="navbtn primary" id="nextBtn" href="page4b.html">→</a>
+    </div>
+  </div>
+
+</div>
+
+<button class="tools-fab" id="toolsFab" title="工具選單"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" data-tool="draw">🖊️ 螢光筆</div>
+  <div class="ctx-item" data-tool="erase">🧹 橡皮擦</div>
+  <div class="ctx-item" data-tool="laser">🔴 雷射筆</div>
+  <div class="ctx-sep"></div>
+  <div class="ctx-item" id="ctxClear">✕ 清空標記</div>
+</div>
+
+<script src="deck.js"></script>
+</body>
+</html>

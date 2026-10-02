@@ -303,10 +303,8 @@ body.laser-on .stage{cursor:none;}
   max-height:0;overflow:hidden;transition:max-height .2s ease;margin-top:4px;
 }
 .wk-detail.open{max-height:400px;margin-top:18px;}
-.wk-detail ul{margin:0;padding-left:0;list-style:none;}
-.wk-detail li{position:relative;padding-left:14px;font-size:13.5px;line-height:1.7;margin-bottom:6px;opacity:.95;}
-/* 左側短線 anchor：3px、金色 --gold（同左右換頁鈕），只對齊首行 */
-.wk-detail li::before{content:"";position:absolute;left:0;top:.42em;width:3px;height:1.05em;border-radius:2px;background:var(--gold);}
+.wk-detail ul{margin:0;padding-left:20px;}
+.wk-detail li{font-size:13.5px;line-height:1.7;margin-bottom:6px;opacity:.95;}
 
 .wk-nav{position:absolute;right:18px;bottom:16px;display:flex;flex-direction:row;align-items:center;gap:8px;}
 .wk-nav button{
