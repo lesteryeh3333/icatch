@@ -6,8 +6,53 @@
 <title>SDK Release 品質提升方案</title>
 <link rel="stylesheet" href="deck.css">
 <script src="i18n.js"></script>
+<style>
+.tc-wrap{overflow-x:auto;overflow-y:hidden;}
+:is(:lang(en),:lang(ja)) .tc-bar{font-size:12px;line-height:1.15;}
+:is(:lang(en),:lang(ja)) .tc-ms{font-size:12.5px;}
+.tc{position:relative;min-width:720px;display:grid;grid-template-columns:84px repeat(6,minmax(0,1fr));grid-template-rows:44px 44px 30px;grid-auto-rows:44px;row-gap:6px;margin-top:6px;}
+.tc-cols{position:absolute;left:84px;right:0;top:0;bottom:0;display:grid;grid-template-columns:repeat(6,1fr);pointer-events:none;}
+.tc-cols i{border-left:1px dashed var(--border);}
+.tc-cols i:last-child{border-right:1px dashed var(--border);}
+.tc-wk{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink-dim);}
+.tc-lane{grid-column:1;display:flex;align-items:center;justify-content:center;border-radius:8px;color:#fff;font-weight:800;font-size:14px;letter-spacing:.04em;margin-right:8px;}
+.tc-lane.ic{background:var(--purple-deep);}
+.tc-lane.dmp{background:#6B7A90;}
+.tc-bar{position:relative;z-index:1;display:flex;align-items:center;padding:0 10px;margin:3px 4px;border-radius:8px;color:#fff;font-size:13px;font-weight:600;line-height:1.2;box-shadow:0 2px 6px rgba(32,42,58,.12);}
+.tc-bar.rd{background:#8A94A6;}
+.tc-bar.qa{background:#4F5F7A;}
+.tc-bar.fx{background:#8A94A6;}
+.tc-clash{position:relative;z-index:auto;margin:0 4px;border:2px dashed #C0504D;border-radius:10px;pointer-events:none;}
+.tc-clash b{position:absolute;z-index:3;right:10px;top:-11px;background:#C0504D;color:#fff;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:.02em;}
+.tc-bar.dm{background:#6B7A90;}
+.tc-ms{position:relative;z-index:1;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink);}
+.tc-ms.r{justify-content:flex-end;padding-right:9%;}
+.tc-ms .sym{flex:none;width:16px;height:16px;}
+.tc-ms.beta .sym{background:var(--c,var(--gold));transform:rotate(45deg);border-radius:2px;width:14px;height:14px;}
+.tc-ms.rel .sym{background:var(--c,var(--green));border-radius:50%;}
+.tc-ms.chk .sym{background:#fff;border:3px solid var(--c,#2E5FA3);border-radius:50%;width:14px;height:14px;box-sizing:border-box;}
+.tc-ms.chk{font-weight:600;color:var(--ink-dim);}
+.tc-bar.tc-sub{background:#EEF0F4;color:var(--ink);border:1px dashed #9AA3B2;box-shadow:none;font-weight:600;font-size:12.5px;}
+.tc-frame{position:relative;z-index:auto;border:2px dashed #C0504D;border-radius:10px;pointer-events:none;}
+.tc-frame b{position:absolute;z-index:3;right:10px;bottom:calc(100% + 4px);max-width:calc(100% - 20px);text-align:left;background:#C0504D;color:#fff;font-size:11.5px;font-weight:700;padding:2px 10px;border-radius:10px;letter-spacing:.02em;}
+.tc-click{cursor:pointer;transition:transform .12s,box-shadow .12s,filter .12s;}
+.tc-click:hover{filter:brightness(1.08);}
+.tc-bar.tc-click:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(32,42,58,.22);}
+.tc-click:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+.tc-click.sel{outline:3px solid var(--ink);outline-offset:1px;}
+.tc-ms.tc-click.sel{outline:none;text-decoration:underline;text-underline-offset:4px;}
+.tc-detail{position:relative;margin-top:14px;border-radius:12px;color:#fff;padding:0 24px;max-height:0;overflow:hidden;opacity:0;transition:max-height .25s,opacity .2s,padding .25s;}
+.tc-detail.open{max-height:300px;opacity:1;padding:18px 24px 20px;}
+.tc-detail .d-eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.14em;opacity:.85;margin-bottom:4px;}
+.tc-detail h2{font-size:21px;font-weight:800;margin:0 0 4px;}
+.tc-detail .d-sub{font-size:13.5px;opacity:.92;line-height:1.55;}
+.tc-detail ul{margin:10px 0 0;padding-left:20px;}
+.tc-detail li{font-size:13px;line-height:1.65;margin-bottom:3px;opacity:.96;}
+.tc-hint{font-size:12px;color:var(--ink-dim);margin-top:10px;}
+.tc-note{font-size:12px;color:var(--ink-dim);margin-top:12px;line-height:1.6;}
+</style>
 </head>
-<body>
+<body data-no-transition>
 
 <div class="overlay" id="overlay"></div>
 <div class="app">
@@ -22,12 +67,13 @@
       <li><a class="nav-item" href="page2.html"><span class="n">2</span>版本發行與測項改善計畫</a></li>
       <li><a class="nav-item" href="page4a.html"><span class="n">3</span>現行 6 週標準流程</a></li>
       <li><a class="nav-item" href="page4b.html"><span class="n">4</span>新 7 週標準流程時間軸</a></li>
-      <li><a class="nav-item active" href="page5.html"><span class="n">5</span>版本節奏與彈性機制</a></li>
-      <li><a class="nav-item" href="page6.html"><span class="n">6</span>iCatch 測項規劃</a></li>
-      <li><a class="nav-item" href="page8.html"><span class="n">7</span>iCatCv 測項規劃</a></li>
-      <li><a class="nav-item" href="page10.html"><span class="n">8</span>我們的承諾</a></li>
-      <li><a class="nav-item" href="page12.html"><span class="n">9</span>客戶協作重點</a></li>
-      <li><a class="nav-item" href="page14.html"><span class="n">10</span>問題與討論</a></li>
+      <li><a class="nav-item" href="page4c.html"><span class="n">5</span>版本節奏與彈性機制</a></li>
+      <li><a class="nav-item active" href="page5.html"><span class="n">6</span>新 6 週流程（討論後版本）</a></li>
+      <li><a class="nav-item" href="page6.html"><span class="n">7</span>iCatch 測項規劃</a></li>
+      <li><a class="nav-item" href="page8.html"><span class="n">8</span>iCatCv 測項規劃</a></li>
+      <li><a class="nav-item" href="page10.html"><span class="n">9</span>我們的承諾</a></li>
+      <li><a class="nav-item" href="page12.html"><span class="n">10</span>客戶協作重點</a></li>
+      <li><a class="nav-item" href="page14.html"><span class="n">11</span>問題與討論</a></li>
     </ul>
     <div class="sidebar-foot">iCatch</div>
   </nav>
@@ -36,48 +82,54 @@
     <button class="menu-btn" id="menuBtn">☰</button>
     <div class="float-top">
       <span class="hint-mini">按右鍵開啟工具選單</span>
-      <span class="progress-num">5 / 10</span>
-      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <span class="progress-num">6 / 11</span>
+      <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
     </div>
 
     <div class="stage" id="stage">
       <canvas class="hl-canvas" id="hlCanvas"></canvas>
-      <div class="slide">
-        <div class="eyebrow">RELEASE RHYTHM</div>
-        <h1>版本節奏與彈性機制</h1>
-        <div class="cp-panel" style="background:#B5502A;--tint:#F8E9E1;--tint-accent:#B5502A;">
-          <div class="cp-eyebrow">FLEXIBILITY</div>
-          <h2>版本節奏與彈性機制</h2>
-          <div class="cp-sub">版本銜接不中斷，時程也保留可預期的彈性空間</div>
-          <ul class="cp-list">
-            <li>
-              <div class="cp-item-head"><div class="cp-mark">1</div><div class="cp-item-title">版本接續：每一版皆為完整 7 週</div><div class="cp-chevron">›</div></div>
-              <div class="cp-item-detail">
-                <p style="opacity:.85;margin-bottom:6px;">N 與 N+1 疊接進行，前一版驗證與下一版開發並行，版本銜接不中斷。</p>
-                <ul style="margin:0;padding-left:16px;"><li>每一版皆依相同流程執行完整 7 週</li><li>N+1 可提前啟動開發，但不壓縮其自身的 7 週驗證週期</li></ul>
-              </div>
-            </li>
-            <li>
-              <div class="cp-item-head"><div class="cp-mark">2</div><div class="cp-item-title">條件式 +1 週彈性機制</div><div class="cp-chevron">›</div></div>
-              <div class="cp-item-detail">
-                <p style="opacity:.85;margin-bottom:6px;">7 週為標準週期，遇到重大問題時保留一次彈性延長。</p>
-                <ul style="margin:0;padding-left:16px;"><li>出現 Critical 問題，且無法於原定週期內收斂</li><li>提前與 DMP 溝通，確認是否啟動 +1 週</li><li>延長 1 週，提供完整問題修復與驗證時間</li></ul>
-              </div>
-            </li>
-            <li>
-              <div class="cp-item-head"><div class="cp-mark">3</div><div class="cp-item-title">安全閥：不會無限期延遲</div><div class="cp-chevron">›</div></div>
-              <div class="cp-item-detail">
-                <p style="opacity:.85;margin-bottom:6px;">延長有上限，不會無限期延後。</p>
-                <ul style="margin:0;padding-left:16px;"><li><b>7 週 → 8 週：</b>機制內建的一次性延長，提前納入規劃</li><li><b>若仍未收斂：</b>正式與 DMP 溝通並進行後續決策</li><li><b>若決定再次延長：</b>與 DMP 正式確認並留下紀錄</li><li><b>若如期發行：</b>發行前與 DMP 溝通，並明確說明已知風險</li></ul>
-              </div>
-            </li>
-          </ul>
+      <div class="slide" style="max-width:1040px;">
+        <div class="eyebrow">NEW RELEASE PROCESS · POST-DISCUSSION VERSION</div>
+        <h1>新 6 週流程（討論後版本）時間軸</h1>
+        <p class="lead" style="margin-bottom:18px;max-width:none;">W2 週五切出 Alpha，DMP 隨即整合 A3000 並開始測試，雙方僅修復 Critical issue；每次 Critical 修復套用後再出新的 Alpha；W5 週五為 Beta 最晚發行期限；W6 週五正式發行。</p>
+
+        <div class="tc-wrap">
+          <div class="tc">
+            <div class="tc-cols"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="tc-wk" style="grid-column:1;"></div>
+            <div class="tc-wk" style="grid-column:2;">W1</div>
+            <div class="tc-wk" style="grid-column:3;">W2</div>
+            <div class="tc-wk" style="grid-column:4;">W3</div>
+            <div class="tc-wk" style="grid-column:5;">W4</div>
+            <div class="tc-wk" style="grid-column:6;">W5</div>
+            <div class="tc-wk" style="grid-column:7;">W6</div>
+            <div class="tc-lane ic" style="grid-row:2 / span 6;">iCatch</div>
+            <div class="tc-bar" style="grid-row:2;grid-column:2 / span 2;background:#8A94A6;margin-right:calc(10% + 4px);">每兩天定期確定基本功能與新功能驗證</div>
+            <div class="tc-bar" style="grid-row:2;grid-column:4 / span 3;background:#8A94A6;">雙方僅修復 Critical issue，長時間可靠度測試同步進行</div>
+            <div class="tc-bar" style="grid-row:2;grid-column:7 / span 1;background:#8A94A6;">協助問題分析與修復</div>
+            <div class="tc-bar tc-click" data-wk="0" role="button" tabindex="0" style="grid-row:4;grid-column:2 / span 2;background:#6A4C9C;margin-right:calc(10% + 4px);">新功能驗證</div>
+            <div class="tc-bar tc-click" data-wk="3" role="button" tabindex="0" style="grid-row:4;grid-column:4 / span 3;background:#1E8A96;margin-right:calc(6.667% + 4px);">Bug fix（僅 Critical），有 bug fix 才出新 Alpha</div>
+            <div class="tc-frame" style="grid-row:4;grid-column:4 / span 3;margin-right:6.667%;"><b>每項修正皆說明影響範圍，並測試相關測項</b></div>
+            <div class="tc-ms chk r tc-click" data-wk="1" role="button" tabindex="0" style="grid-row:5;grid-column:3 / span 2;padding-right:5%;--c:#C79A1E;"><span>A2（W3 週五）</span><span class="sym"></span></div>
+            <div class="tc-ms chk r tc-click" data-wk="1" role="button" tabindex="0" style="grid-row:5;grid-column:4 / span 2;padding-right:5%;--c:#C79A1E;"><span>A3（W4 週五）</span><span class="sym"></span></div>
+            <div class="tc-ms beta r tc-click" data-wk="1" role="button" tabindex="0" style="grid-row:5;grid-column:2 / span 2;padding-right:5%;--c:#C79A1E;"><span>Alpha A1 切出（W2 週五）</span><span class="sym"></span></div>
+            <div class="tc-ms beta r tc-click" data-wk="4" role="button" tabindex="0" style="grid-row:6;grid-column:5 / span 2;padding-right:5%;--c:#2E5FA3;"><span>Beta 發行（W5 週五）</span><span class="sym"></span></div>
+            <div class="tc-ms rel r tc-click" data-wk="5" role="button" tabindex="0" style="grid-row:5;grid-column:6 / span 2;padding-right:5%;--c:#9C3B7A;"><span>正式發行（W6 週五）</span><span class="sym"></span></div>
+            <div class="tc-ms chk r tc-click" data-wk="4" role="button" tabindex="0" style="grid-row:7;grid-column:5 / span 2;padding-right:20%;--c:#2E5FA3;"><span>檢查點（W5 週三）</span><span class="sym"></span></div>
+            <div class="tc-ms chk r" style="grid-row:7;grid-column:6 / span 2;padding-right:10%;--c:#5C6BC0;"><span>檢查點（W6 週四）</span><span class="sym"></span></div>
+            <div class="tc-lane dmp" style="grid-row:8;">DMP</div>
+            <div class="tc-bar tc-click" data-wk="2" role="button" tabindex="0" style="grid-row:8;grid-column:4 / span 3;background:#2F8F5E;margin-right:calc(10% + 4px);">整合 A3000 並開始測試</div>
+            <div class="tc-bar tc-click" data-wk="5" role="button" tabindex="0" style="grid-row:8;grid-column:7 / span 1;background:#5C6BC0;">客戶整合驗證</div>
+          </div>
         </div>
+
+        <div class="tc-hint">點選色帶或里程碑，可展開該週說明；空心標記（A2、A3）僅在有 bug fix 時才出</div>
+        <div class="tc-detail" id="tcDetail"></div>
       </div>
     </div>
 
     <div class="navbtns">
-      <a class="navbtn" id="prevBtn" href="page4b.html">←</a>
+      <a class="navbtn" id="prevBtn" href="page4c.html">←</a>
       <a class="navbtn primary" id="nextBtn" href="page6.html">→</a>
     </div>
   </div>
@@ -95,5 +147,30 @@
 </div>
 
 <script src="deck.js"></script>
+<script>
+const weeks = [
+  {n:'W1 W2', t:'新功能驗證', color:'#6A4C9C', sub:'目的：完成新功能驗證。', pts:['研發持續進行新功能開發，除錯測試團隊同步跟進，逐項確認新功能','測試團隊每兩天定期確定基本功能']},
+  {n:'W2 週五', t:'Alpha 切出', color:'#C79A1E', sub:'目的：提早交付 Alpha，讓 DMP 及早整合與測試。', pts:['週五切出 Alpha（A1），交付 DMP','DMP 隨即整合 A3000，並同步開始測試','code 凍結範圍鎖定，雙方僅修復 Critical issue','每個 Alpha 若有 Critical 問題修復，套用後再出新的 Alpha（A2、A3…）']},
+  {n:'W3 W4 W5', t:'DMP 整合 A3000 並開始測試', color:'#2F8F5E', sub:'目的：Alpha 交付後，DMP 整合 A3000 並同步開始測試。', pts:['DMP 整合 A3000 後，依 DMP 測項開始驗證','iCatch 同步進行新功能驗證與長時間可靠度測試','雙方僅修復 Critical issue','修復套用後再出 Alpha，DMP 以最新 Alpha 持續測試']},
+  {n:'W3 W4 W5', t:'Bug fix 並再出 Alpha', color:'#1E8A96', sub:'目的：修復 Critical issue，套用後再出新的 Alpha。', pts:['雙方僅修復 Critical issue','有 bug fix 才出新的 Alpha，套用修復後發行','Alpha A2：W3 週五，有 bug fix 才出','Alpha A3：W4 週五，有 bug fix 才出','每項修正皆說明影響範圍，並測試相關測項']},
+  {n:'', t:'Beta 發行（W5 週五）', color:'#2E5FA3', sub:'目的：完成最後修復，週五作為 Beta 最晚發行期限。', pts:['週三：中途檢查點；若有重大問題無法如期解決，提前與 DMP 溝通','週五：發行 Beta；若仍有非必要項目未完成，主動說明驗證涵蓋範圍']},
+  {n:'W6', t:'客戶整合驗證', color:'#5C6BC0', sub:'目的：確認實際整合情境，雙方同步處理問題。', pts:['DMP：進行程式碼銜接與整合測試','iCatch：同步協助問題分析與修復','週四：中途檢查點，提前跟 DMP 確認是否需要調整正式發行時間','週五：正式版本發行']},
+];
+let tcSel = null;
+const tcPanel = document.getElementById('tcDetail');
+function tcShow(i, el){
+  document.querySelectorAll('.tc-click.sel').forEach(x=>x.classList.remove('sel'));
+  if(tcSel === el){ tcSel = null; tcPanel.classList.remove('open'); return; }
+  tcSel = el; el.classList.add('sel');
+  const w = weeks[i];
+  tcPanel.style.background = w.color;
+  tcPanel.innerHTML = `<div class="d-eyebrow">${i+1} / 6</div><h2>${w.n ? w.n + '　' + w.t : w.t}</h2><div class="d-sub">${w.sub}</div><ul>${w.pts.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+  tcPanel.classList.add('open');
+}
+document.querySelectorAll('.tc-click').forEach(el=>{
+  el.addEventListener('click', ()=>tcShow(Number(el.dataset.wk), el));
+  el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); tcShow(Number(el.dataset.wk), el); } });
+});
+</script>
 </body>
 </html>
